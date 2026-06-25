@@ -3,16 +3,16 @@ var config = {
   student_year_sem: "Summer 2026", // ie. Fall 2025
   student_email: "993412+mattastica@users.noreply.github.com", // ie. jdoe@college.harvard.edu
 
-  background_color: "#181818",
-  text_color: "#dedede",
+  background_color: "#f1f3f4",
+  text_color: "#202124",
   accent_color: "#FFFFFF",
 
   // Make sure to add the @import from Google Fonts to style.css, ask if you need help!
-  font_family: "Lato",
+  font_family: "Inter",
   code_font_family: "Roboto Mono"
 };
 
-document.title = `${config.student_name}'s PS70 Website`;
+document.title = `${config.student_name}'s S-12 Website`;
 
 document.documentElement.style.setProperty(
   "--background-color",

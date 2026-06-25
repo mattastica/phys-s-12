@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100..900;1,100..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
 
 :root {
   --secondary-background-color: color-mix(in srgb, var(--text-color) 8%, var(--background-color) 92%);
@@ -19,6 +18,28 @@ html {
   background-color: var(--background-color);
   font-family: var(--font-family);
   box-sizing: border-box;
+}
+
+body {
+  max-width: 64rem;
+  margin: 2rem auto 3rem;
+  background-color: var(--accent-color);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='560' height='560' viewBox='0 0 560 560'><g fill='%23202124' opacity='0.07' font-family='Georgia, serif' font-size='42'><text x='60' y='110' transform='rotate(-12 60 110)'>%E2%99%AA</text><text x='420' y='180' transform='rotate(14 420 180)'>%E2%99%AC</text><text x='180' y='330' transform='rotate(6 180 330)'>%E2%99%A9</text><text x='480' y='430' transform='rotate(-8 480 430)'>%E2%99%AA</text><text x='80' y='500' transform='rotate(18 80 500)'>%E2%99%AC</text><text x='310' y='470' transform='rotate(-4 310 470)'>%E2%99%A9</text></g></svg>");
+  background-repeat: repeat;
+  background-size: 560px 560px;
+  box-shadow: 0 1px 2px rgba(60, 64, 67, 0.08), 0 4px 12px rgba(60, 64, 67, 0.08);
+  border-radius: 2px;
+  padding: 4rem 0;
+  min-height: 70vh;
+}
+
+@media (max-width: 64rem) {
+  body {
+    margin: 0;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 2rem 0;
+  }
 }
 
 /* TEXT */
@@ -203,20 +224,21 @@ img:has(+ .caption) {
 /* Nav */
 
 nav {
-  height: clamp(0rem, 20vw, 10rem);
+  height: 3.5rem;
   width: 100vw;
-  padding: 0rem 7vw;
-  gap: 3rem;
+  padding: 0rem 2rem;
+  gap: 2rem;
   display: flex;
   align-items: center;
   justify-content: flex-end;
 }
 
 nav a {
-  font-size: clamp(1rem, 1.5vw, 100rem);
-  font-weight: 900;
-  font-style: italic;
+  font-size: 0.95rem;
+  font-weight: 500;
+  font-style: normal;
   text-decoration: none;
+  color: color-mix(in srgb, var(--text-color) 75%, transparent);
 }
 
 nav #home {
@@ -227,13 +249,14 @@ nav #home {
 
 footer {
   width: 100vw;
-  margin-top: 20vh;
-  padding: 5vw;
-  gap: 5vw;
+  margin-top: 1rem;
+  padding: 2rem;
+  gap: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 
 footer #contact-info {
   display: flex;
@@ -241,17 +264,18 @@ footer #contact-info {
 }
 
 footer a {
-  font-size: clamp(1rem, 1.5vw, 100rem);
+  font-size: 0.9rem;
   font-weight: 400;
-  font-style: italic;
+  font-style: normal;
   text-decoration: none;
+  color: color-mix(in srgb, var(--text-color) 70%, transparent);
 }
 
 /* Hero */
 
 #hero {
-  height: 70vh;
-  padding: 0vh 7vw;
+  height: auto;
+  padding: 1rem 7vw 2rem;
   display: flex;
   flex-direction: column;
   align-items: left;
@@ -259,9 +283,10 @@ footer a {
 }
 
 #hero h1 {
-  font-size: clamp(3.5rem, 8vw, 100rem);
-  font-weight: 700;
-  margin-bottom: 3rem;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 600;
+  margin-bottom: 1rem;
+  letter-spacing: -0.01em;
 }
 
 /* Final project */
