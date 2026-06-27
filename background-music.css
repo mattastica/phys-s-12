@@ -1,0 +1,58 @@
+/* Pixel-art music notes fall down the page in two parallax layers.
+   Static body-bg pattern is the default. Pages that include
+   background-music.js add a class to <body> to swap it for an interactive
+   DOM layer where each note can be hovered. */
+
+body:not(.music-notes-interactive) {
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='560' height='560' viewBox='0 0 560 560'><g fill='%23212529' opacity='0.10'><g transform='translate(60 70) scale(3)'><rect x='0' y='10' width='5' height='4'/><rect x='4' y='0' width='1' height='11'/></g><g transform='translate(420 110) scale(3)'><rect x='0' y='10' width='5' height='4'/><rect x='4' y='0' width='1' height='11'/><rect x='5' y='0' width='2' height='1'/><rect x='6' y='1' width='2' height='1'/><rect x='7' y='2' width='1' height='2'/></g><g transform='translate(220 270) scale(3)'><rect x='0' y='10' width='5' height='4'/><rect x='10' y='10' width='5' height='4'/><rect x='4' y='2' width='1' height='9'/><rect x='14' y='2' width='1' height='9'/><rect x='4' y='0' width='11' height='2'/></g><g transform='translate(480 360) scale(3)'><rect x='0' y='10' width='5' height='4'/><rect x='4' y='0' width='1' height='11'/><rect x='5' y='0' width='2' height='1'/><rect x='6' y='1' width='2' height='1'/><rect x='7' y='2' width='1' height='2'/></g><g transform='translate(100 420) scale(3)'><rect x='0' y='10' width='5' height='4'/><rect x='4' y='0' width='1' height='11'/></g><g transform='translate(360 460) scale(3)'><rect x='0' y='10' width='5' height='4'/><rect x='10' y='10' width='5' height='4'/><rect x='4' y='2' width='1' height='9'/><rect x='14' y='2' width='1' height='9'/><rect x='4' y='0' width='11' height='2'/></g></g></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='560' height='560' viewBox='0 0 560 560'><g fill='%23212529' opacity='0.10'><g transform='translate(60 70) scale(3)'><rect x='0' y='10' width='5' height='4'/><rect x='4' y='0' width='1' height='11'/></g><g transform='translate(420 110) scale(3)'><rect x='0' y='10' width='5' height='4'/><rect x='4' y='0' width='1' height='11'/><rect x='5' y='0' width='2' height='1'/><rect x='6' y='1' width='2' height='1'/><rect x='7' y='2' width='1' height='2'/></g><g transform='translate(220 270) scale(3)'><rect x='0' y='10' width='5' height='4'/><rect x='10' y='10' width='5' height='4'/><rect x='4' y='2' width='1' height='9'/><rect x='14' y='2' width='1' height='9'/><rect x='4' y='0' width='11' height='2'/></g><g transform='translate(480 360) scale(3)'><rect x='0' y='10' width='5' height='4'/><rect x='4' y='0' width='1' height='11'/><rect x='5' y='0' width='2' height='1'/><rect x='6' y='1' width='2' height='1'/><rect x='7' y='2' width='1' height='2'/></g><g transform='translate(100 420) scale(3)'><rect x='0' y='10' width='5' height='4'/><rect x='4' y='0' width='1' height='11'/></g><g transform='translate(360 460) scale(3)'><rect x='0' y='10' width='5' height='4'/><rect x='10' y='10' width='5' height='4'/><rect x='4' y='2' width='1' height='9'/><rect x='14' y='2' width='1' height='9'/><rect x='4' y='0' width='11' height='2'/></g></g></svg>");
+  background-repeat: repeat;
+  background-size: 400px 400px, 800px 800px;
+  animation: drift-notes 40s linear infinite;
+}
+
+@keyframes drift-notes {
+  from { background-position: 0 0,        0 0; }
+  to   { background-position: 0 400px,    0 1600px; }
+}
+
+#music-notes {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 10;
+}
+
+#music-notes .note {
+  position: absolute;
+  top: var(--top, 0);
+  left: var(--left, 0);
+  color: var(--nes-ink);
+  opacity: 0.10;
+  pointer-events: auto;
+  cursor: default;
+  animation: note-fall var(--dur, 40s) linear var(--delay, 0s) infinite;
+  transition: color 180ms ease, opacity 180ms ease;
+}
+
+#music-notes .note svg {
+  display: block;
+  fill: currentColor;
+}
+
+#music-notes .note:hover {
+  color: var(--accent, var(--nes-red));
+  opacity: 1;
+}
+
+@keyframes note-fall {
+  from { transform: translateY(-100vh); }
+  to   { transform: translateY(100vh); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body { animation: none; }
+  #music-notes .note { animation: none; }
+}

@@ -9,62 +9,149 @@
   </head>
 
   <nav>
-    <a id="home" href="../index.html">Home</a>
+    <a id="home" href="../index.html">PHYS S-12 | Summer 2026</a>
     <a href="../index.html#final-project">Work</a>
     <a href="../about.html">About</a>
   </nav>
 
   <body>
     <section class="blog">
-
-      <p>All of my projects are inspired by my passion for music, and a desire to create new mediums for teaching, learning, and playing music with one another. The overriding value is that we express (and learn) music more intuitvely, by sound, and no classically by notation. At least not initially</p>
-
-      <h1>Week 1: Final Project Proposal</h1>
-
-      <h4>Melodia</h4>
-
+      <h1>Week 1: Final Project Brainstorm</h1>
+      <p>These project ideas revolve around fun of teaching, learning, and expressing music. They do this through the way all sense and internalize western music, relative pitch (in solfege form it would be: Do, Re, Mi, etc.). The principle across these projects is to enable anyone to learn music intuitively, through expression and feedback; vs. classically, through notation and mechanical reproduction.</p>
+      <h2>Melodia</h2>
 
       <!-- Media should be put in the asset folder of their respective week -->
       <img src="./Assets/melodia.jpg" alt="">
-        <h4>Project Overview</h4>
-        <p>
-        A musical physical-digitl card game played on a 4×4 grid. The cards Each player is dealt 8 digital cards per round. Every card
-        can play a simple tone, show a basic note/symbol, and display arrows in any of the 8 cardinal/intercardinal directions:
-        N, NE, E, SE, S, SW, W, NW. Cards snap into place with magnets, and the system tracks the grid so it can flash arrows
-        showing where the next card is eligible to go.
-        <p>
-        <h4>Initial version</h4>
-        <ul>
-       <li>4×4 grid with 16 possible card positions</li>
+      <h3>Project Overview</h3>
+      <p>
+      A musical electronic card game played on a 4x4 grid. Players
+      score by creating valid musical and spatial connections. Each player is dealt 8 an electronic card each round. Every has a speaker to play a simple tone, show a basic note/symbol, and display arrows in its corners in any of the 8 cardinal/intercardinal directions: N, NE, E, SE, S, SW, W, NW. Cards snap into place at their sides or corners magnets, and the system tracks its placement in the grid so it can show where the next possible card placements can be. <b>This way the grid can grow dynamically and drive strategy.</b>
+      </p>
+      <h3>Potential Scope</h3>
+      <ul>
+        <li>4×4 grid with 16 possible card positions</li>
+        <li>Magnetically lockable cards, 45 degree corners. 8 magnets per card (cardinal_inter-cardinal orientation)</li>
         <li>2 players, each with 8 cards</li>
-        <li>Cards have randomized arrow configurations each round</li>
-  <li>Cards show/play note identities like Do, Re, Mi — also randomized each round</li>
-    <li>System flashes eligible next placements based on the current board state — but the arrows only indicate where the next note combos come from, not valid placements. You can place tiles where no arrows are adjacent strategically.</li>
-        </ul>
-        <h4>Gameplay</h4>
-        <p>
-        Players take turns placing their 8 cards onto the 4×4 grid. Each card has a note identity and a randomized set of active
-        arrows pointing in the 8 possible directions. A card can connect only where its arrows point to neighboring cards.
-        Different modes can use different note sets, such as Triple Do/Re/Mi, Triad Do/Mi/So, Pentatonic, or Diatonic. Players
-        score by creating valid musical and spatial connections. Poitns are earned by sequential notes, or chords, in any direction.
-        <p>
+        <li>LED lights underneath the 8 cardinal and inter-cardinal arrow shapes along card perimiter</li>
+        <li>Center Display: 32x32px display for solfege names: Do, Re, Mi, Fa, Sol, etc.</li>
+        <li>As cards connect, LED arrows update on all cards to show valid locations for next card to grow into 4x4 grid</li>
+        <li>Distributed system in which each node can track and initiate gameplay (or charging deck acts as game controller)</li>
+      </ul>
+      <h3>Gameplay</h3>
+      <p>
+      Players take turns placing their 8 cards onto the 4×4 grid. Each card has a randomized note identity (Do, Re, Mi, Fa, ..., etc.). A card can connect only where the arrows on 'played cards' indicate. Points are earned by playing linear melodies (Do+Re), in any direction sequence. Each pair earns 1 point. Chords (e.g. Do, Mi, So or So, Ti, Re) in sequence earn 2 points per pair. Each players card can track their score at bottom of display for any played card. 
+      Different modes can use different note sets, such as Triple Do/Re/Mi, Triad Do/Mi/So, Pentatonic, or Diatonic.  Poitns are earned by sequential notes, or chords, in any direction.
+      </p>
 
       <h2>Keystone</h2>
-      <h2>Project Overview</h2>
-      <p>Key stone is a pendant style device the style of an Apple Watch, but circular. It also acts as a physical button. It
-        is worn as a pendant around the neck. When you take it off and hold it, you can use it to train yourself to hear
-        Solfege (or Relative Pitch) in 12 different keys. At rest, its display can show an Animal for any key you've learned
-        (e.g. Eb = Elephant, D = Dog, etc.) When you shake the device it will start the game mode, and you click to start.</p>
-        <p>Keystone plays a musical chord for the key, then a note. You use swinigng gestures (like casting a spell) to indicate the note you think is correct. Confirmation gives the next prompt. Complete 3 correctly in a row, advance to next key. After all keys you advance to harder levels (3 notes, 5 notes, 7 notes, Chromatic [12]).</p>
-      <h2>Honu</h2>
-      <h4>Project Overview</h4>
+      <img src="./Assets/keystone.jpg" alt="">
+      <h3>Project Overview</h3>
+      <p>Keystone is a pendant-style device shaped like an Apple Watch, but circular. It also acts as a physical button. It is worn as a pendant around the neck — take it off, hold it, and use it to train yourself to hear Solfège (relative pitch) in all 12 keys. At rest, its display shows an Animal icon for each key you've learned (e.g. Eb = Elephant, D = Dog). Shake the device to enter game mode, click to start.</p>
+      <p>Keystone plays a musical chord for the key, then a single note. You use swinging gestures (like casting a spell) to play a note and indicate the that you think the note. Get all 3 notes correct in a row to advance to the next key. After all keys, you advance to harder levels (3, 5, 7, then 12 chromatic notes to guess).</p>
+      <h3>Potential Scope</h3>
+      <ul>
+        <li>Pendant-style, circular form factor (Apple Watch shape)</li>
+        <li>Doubles as a physical button</li>
+        <li>Display: Minimum 32x32 pixels with 16 colors</li>
+        <li>Keystone has 12 backlit LED holes similar to watch face numbers around circumference — indicate key progress and level depth.</li>
+        <li>Trains Solfège / relative pitch across all 12 keys</li>
+        <li>At-rest display: animal icon per learned key (Eb = Elephant, D = Dog…)</li>
+        <li>Shake to enter game mode, click to start</li>
+        <li>Swinging "spell-cast" gestures to identify notes</li>
+        <li>Progressive levels: 3 → 5 → 7 → 12 notes (Chromatic)</li>
+        <li>Display teach gestures and other commands</li>
+      </ul>
 
-      
+      <h3>Key &amp; Animal Mappings</h3>
+      <p><b>Kids can wear their Keystone around their neck and immediately see one anothers status — the animal represents any key they've beat a level in. The surrounding represent how many total keys they've mastered and colors represent note levels (e.g. Triple, Penta, Dia, Chroma).</b></p>
+      <table>
+        <thead>
+          <tr><th>Note</th><th>Animal</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>C</td><td>Cat 🐱</td></tr>
+          <tr><td>Db</td><td>Dolphin 🐬</td></tr>
+          <tr><td>D</td><td>Dog 🐶</td></tr>
+          <tr><td>Eb</td><td>Elephant 🐘</td></tr>
+          <tr><td>E</td><td>Eagle 🦅</td></tr>
+          <tr><td>F</td><td>Frog 🐸</td></tr>
+          <tr><td>F#/Gb</td><td>Fox 🦊</td></tr>
+          <tr><td>G</td><td>Giraffe 🦒</td></tr>
+          <tr><td>Ab</td><td>Alpaca 🦙</td></tr>
+          <tr><td>A</td><td>Alligator 🐊</td></tr>
+          <tr><td>Bb</td><td>Beaver 🦫</td></tr>
+          <tr><td>B</td><td>Bee 🐝</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Honu 🐢</h2>
+      <img src="./Assets/honu.jpg" alt="">
+      <h3>Project Overview</h3>
+      <p>Honu (Hawaiian for Turtle) is a device that trains relative pitch, then making melodies with relative pitch, then battling friends with melodies in relative pitch. It is a 1-or-2 player game depending on the number of Honus present.</p>
+      <p>Honu is an electromechanical device in the form of a turtle, with a mechanism that lets it travel in X,Y directions, or rotate 360 degrees, across flat surfaces like a tabletop.</p>
+
+      <aside class="callout">
+        <span class="callout-label">Pairs with Keystone</span>
+        <p>Honu listens to tones emitted by the Keystone — that's how you interact with it during gameplay.</p>
+      </aside>
+
+      <h3>Potential Scope</h3>
+      <ul>
+        <li>Microphone and speaker on the body</li>
+        <li>Each shell piece backlit by an LED (minimum 12)</li>
+        <li>X/Y travel + 360° rotation across a flat surface (2 wheels + casters)</li>
+        <li>Pressable for activation/deactivation and mode selection</li>
+        <li>Swarm style proximity detection for Battle mode</li>
+        <li>Maybe | Hold to Keystone to Synchronize</li>
+        <li>Maybe | Single color display on bottom for mode selection</li>
+      </ul>
+
+      <h3>Modes</h3>
+
+      <h4>Trainer</h4>
+      <p>The starting mode. After activation, Honu plays a major chord to set the key, then plays single notes from that key for you to identify by ear.</p>
+      <h5>Gameplay</h5>
+      <ul>
+        <li>The Honu is activated and deactivated through a long-press</li>
+        <li>When set on the table, it emits a boundary-check melody and returns to its center point</li>
+        <li>Honu plays a major chord in a key</li>
+        <li>Honu then selects a random note in the key and plays it intermittently (every 3 seconds)</li>
+      </ul>
+      <h5>Levels</h5>
+      <p>Trainer has 5 levels based on the number of notes taught:</p>
+      <ul>
+        <li>1) Triple — Do, Re, Mi</li>
+        <li>2) Penta — Do, Re, Mi, So, La</li>
+        <li>3) Dia — Do, Re, Mi, Fa, So, La, Ti</li>
+        <li>4) Chroma — Do, Ra, Re, Me, Mi, Fa, Fi, So, Le, La, Te, Ti</li>
+      </ul>
+
+      <h4>Capture</h4>
+      <p>Once you've completed Level 2, your Honu unlocks melody mode. It plays pentatonic melodies and you must reproduce them.</p>
+      <h5>Gameplay</h5>
+      <ul>
+        <li>Honu plays a short pentatonic melody</li>
+        <li>You reproduce the melody using your Keystone device</li>
+        <li>Confirmation advances you to the next, progressively harder melody</li>
+      </ul>
+
+      <h4>Battle</h4>
+      <p>A two-Honu race kicked off by a starting melody. The first player to cast it takes the lead; you trade melodies back and forth, and each successful pass-back lights up a shell.</p>
+      <h5>Gameplay</h5>
+      <ul>
+        <li>A Honu plays a starting melody to begin the race</li>
+        <li>First player to cast it with Keystone takes the lead — their Honu begins the timed race</li>
+        <li>Two Honus chase each other across or around the table or ground</li>
+        <li>You cast a melody your opponent must repeat — failure lets your Honu pass theirs</li>
+        <li>Each successful pass-back lights up a shell piece</li>
+        <li>Winner: most shells lit at end of race, or first to fill all shells</li>
+      </ul>
     </section>
   </body>
 
   <footer>See config.js</footer>
 
   <script src="../config.js"></script>
+  <script src="../background-music.js" defer></script>
   <script src="../slideshow.js"></script>
 </html>

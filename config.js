@@ -1,7 +1,6 @@
 var config = {
   student_name: "Matthew Ryan Grace", // ie. John Doe
   student_year_sem: "Summer 2026", // ie. Fall 2025
-  student_email: "993412+mattastica@users.noreply.github.com", // ie. jdoe@college.harvard.edu
 
   background_color: "#f1f3f4",
   text_color: "#202124",
@@ -38,10 +37,6 @@ document.documentElement.style.setProperty(
 document.querySelector("footer").innerHTML = `
   <a href="./index.html#final-project">Work</a>
   <a href="./about.html">About</a>
-
-  <div id="contact-info">
-    <a href="mailto:${config.student_email}">${config.student_email}</a>
-  </div>
 `;
 
 document.querySelectorAll('#student-name').forEach(el => {
