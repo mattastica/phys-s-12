@@ -27,7 +27,7 @@
       A musical electronic card game played on a 4x4 grid. Players
       score by creating valid musical and spatial connections. Each player is dealt 8 an electronic card each round. Every has a speaker to play a simple tone, show a basic note/symbol, and display arrows in its corners in any of the 8 cardinal/intercardinal directions: N, NE, E, SE, S, SW, W, NW. Cards snap into place at their sides or corners magnets, and the system tracks its placement in the grid so it can show where the next possible card placements can be. <b>This way the grid can grow dynamically and drive strategy.</b>
       </p>
-      <h3>Potential Scope</h3>
+      <h3>Technical Considerations</h3>
       <ul>
         <li>4×4 grid with 16 possible card positions</li>
         <li>Magnetically lockable cards, 45 degree corners. 8 magnets per card (cardinal_inter-cardinal orientation)</li>
@@ -39,16 +39,14 @@
       </ul>
       <h3>Gameplay</h3>
       <p>
-      Players take turns placing their 8 cards onto the 4×4 grid. Each card has a randomized note identity (Do, Re, Mi, Fa, ..., etc.). A card can connect only where the arrows on 'played cards' indicate. Points are earned by playing linear melodies (Do+Re), in any direction sequence. Each pair earns 1 point. Chords (e.g. Do, Mi, So or So, Ti, Re) in sequence earn 2 points per pair. Each players card can track their score at bottom of display for any played card. 
-      Different modes can use different note sets, such as Triple Do/Re/Mi, Triad Do/Mi/So, Pentatonic, or Diatonic.  Poitns are earned by sequential notes, or chords, in any direction.
-      </p>
-
+      Each card issued to a player has a randomized note identity (Do, Re, Mi, Fa, ..., etc.). Players take turns placing their 8 cards onto the 4×4 grid. A card can only be placed (connect) where the arrows on 'played cards' indicate. Points are earned by playing linear melodies (Do+Re), in any direction or sequence. Each pair earns 1 point. Chords (e.g. Do, Mi, So or So, Ti, Re) in sequence earn 2 points per pair. Each players card can track the total score at bottom of display for any played card.</p>
       <h2>Keystone</h2>
       <img src="./Assets/keystone.jpg" alt="">
       <h3>Project Overview</h3>
-      <p>Keystone is a pendant-style device shaped like an Apple Watch, but circular. It also acts as a physical button. It is worn as a pendant around the neck — take it off, hold it, and use it to train yourself to hear Solfège (relative pitch) in all 12 keys. At rest, its display shows an Animal icon for each key you've learned (e.g. Eb = Elephant, D = Dog). Shake the device to enter game mode, click to start.</p>
-      <p>Keystone plays a musical chord for the key, then a single note. You use swinging gestures (like casting a spell) to play a note and indicate the that you think the note. Get all 3 notes correct in a row to advance to the next key. After all keys, you advance to harder levels (3, 5, 7, then 12 chromatic notes to guess).</p>
-      <h3>Potential Scope</h3>
+      <p>Keystone is a necklace-and-pendant style device roughly the size of an Apple Watch, but circular. It also acts as a physical button. It is worn on a necklace around the neck — take it off, hold it, and use it to train yourself to hear Solfège (relative pitch) in all 12 keys. At rest, the pendant display shows an Animal icon for any key you've learned (e.g. Eb = Elephant, D = Dog). Press the pendant to cycle through learned keys. Shake the device to enter game mode. Press to start.</p>
+      <h3>Gameplay</h3>
+      <p>Keystone plays a musical chord for the key, then a single note. You use swinging gestures (like casting a spell) to play a note and to assert its correctness. Get X notes correct in a row to advance to the next key. After all keys, you advance to harder levels (3, 5, 7, then 12 chromatic notes to guess).</p>
+      <h3>Technical Considerations</h3>
       <ul>
         <li>Pendant-style, circular form factor (Apple Watch shape)</li>
         <li>Doubles as a physical button</li>
@@ -63,7 +61,8 @@
       </ul>
 
       <h3>Key &amp; Animal Mappings</h3>
-      <p><b>Kids can wear their Keystone around their neck and immediately see one anothers status — the animal represents any key they've beat a level in. The surrounding represent how many total keys they've mastered and colors represent note levels (e.g. Triple, Penta, Dia, Chroma).</b></p>
+      <p><b>Kids can wear their Keystone around their neck and immediately see one anothers status — the animal represents any key they've beat a level in.</b>
+      <i>The 12 circumscribing LEDs represent how many total keys they've mastered, their color represents the levels learned (e.g. Triple, Penta, Dia, Chroma — all 12 notes)</i></p>
       <table>
         <thead>
           <tr><th>Note</th><th>Animal</th></tr>
@@ -95,7 +94,7 @@
         <p>Honu listens to tones emitted by the Keystone — that's how you interact with it during gameplay.</p>
       </aside>
 
-      <h3>Potential Scope</h3>
+      <h3>Technical Considerations</h3>
       <ul>
         <li>Microphone and speaker on the body</li>
         <li>Each shell piece backlit by an LED (minimum 12)</li>

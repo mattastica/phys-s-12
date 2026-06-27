@@ -11,7 +11,7 @@ var config = {
   code_font_family: "Roboto Mono"
 };
 
-document.title = `${config.student_name}'s S-12 Website`;
+document.title = `${config.student_name} | PHYS S-12 ${config.student_year_sem}`;
 
 document.documentElement.style.setProperty(
   "--background-color",
@@ -34,9 +34,17 @@ document.documentElement.style.setProperty(
   config.code_font_family
 );
 
+// Site root is the directory holding config.js, derived from this script's URL.
+// Works at any page depth and on file:// or http(s)://.
+const SITE_BASE = (() => {
+  const src = document.currentScript && document.currentScript.src;
+  return src ? src.substring(0, src.lastIndexOf('/') + 1) : './';
+})();
+
 document.querySelector("footer").innerHTML = `
-  <a href="./index.html#final-project">Work</a>
-  <a href="./about.html">About</a>
+  <img src="${SITE_BASE}placeholder_assets/harvard.png" alt="Harvard" class="footer-mark">
+  <a href="${SITE_BASE}index.html#final-project">Work</a>
+  <a href="${SITE_BASE}about.html">About</a>
 `;
 
 document.querySelectorAll('#student-name').forEach(el => {

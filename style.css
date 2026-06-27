@@ -403,8 +403,15 @@ footer {
   padding: 2rem;
   gap: 2rem;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
+}
+
+.footer-mark {
+  height: 4.5rem;
+  width: auto;
+  border: none;
+  margin: 0 auto 0 0;
 }
 
 footer a {
