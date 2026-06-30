@@ -26,16 +26,51 @@
       <h1>Week 2: 2D/3D Design</h1>
       
       <p>
-        You have three assignments: design a cardboard box, work through a Fusion 360 tutorial, and model some household objects or components from the lab. Include some pictures and downloads to your 3D models.
+        
       </p>
       
-      <h2>Box Design</h2>
+      <h2>Lab Box</h2>
+      <div class="img-duo">
+        <img src="./Assets/lab_box_sketch.jpg" alt="Lab box parametric sketch">
+        <img src="./Assets/lab_box_photo.jpg" alt="Lab box, cut and assembled">
+      </div>
+      <p>A simple cardboard box &mdash; the catch was making the parametric model actually scale without breaking. I watched a lot of students in lab (myself included) try to tweak a parameter and watch the whole sketch fall apart.</p>
+      <p>I rebuilt mine four times, getting faster each pass, until I understood why it kept breaking. The gist:</p>
+      <ul>
+        <li>Start sketch entity with constraint to origin; not just to its neighbors</li>
+        <li>Constrain relationships between entities too (coincident, equal, parallel)</li>
+        <li>Use rectangular patterns instead of duplicating geometry; the pattern carries the constraints through on mirrors</li>
+        <li>Mirror all the related geometries</li>
+      </ul>
+      <p>Now any parameter scales cleanly.</p>
+      <ul>
+        <li><a href="./Assets/lab_box.f3d" download>lab_box.f3d</a> &mdash; Fusion 360 source</li>
+      </ul>
 
-      <p>This is how you create <a href="./Assets/example_part.stl" download>a link to download a file</a>.</p>
+      <h2>Vector Drawing</h2>
+      <img src="./Assets/orbiter_vector.svg" alt="Orbiter minimalist vector logo">
+      <p>
+        <b>orbiter</b> is my handle in my favorite game, <a href="https://generals.io" target="_blank" rel="noopener">generals.io</a>; it's a real-time version of Risk with fast-paced mechanics and resource management. I use this handle in other projects too, so I drew a minimalist mark for it.
+      </p>
 
       <h2>Fusion 360 Tutorial</h2>
-      
-      <h2>CAD Practice</h2>
+      <div class="img-duo">
+        <img src="./Assets/toy_block_top.jpg" alt="Toy block model — top view">
+        <img src="./Assets/toy_block_bottom.jpg" alt="Toy block model — bottom view">
+      </div>
+      <p>This was a Fusion 360 tutorial modeling a LEGO brick &mdash; a fun way to get familiar with sketches, extrusions, and patterns.</p>
+      <ul>
+        <li><a href="./Assets/toy_block.f3d" download>toy_block.f3d</a> &mdash; Fusion 360 source</li>
+        <li><a href="./Assets/toy_block.stl" download>toy_block.stl</a> &mdash; mesh export</li>
+      </ul>
+
+      <h2>MBTA Coaster</h2>
+      <img src="./Assets/mbta_coaster.jpg" alt="MBTA coaster set">
+      <p>A coaster set I got back in the day based on the MBTA train color lines. I rode the Green Line a lot when I commuted to and from work in Cambridge.</p>
+
+      <h2>Wrist Rest</h2>
+      <img src="./Assets/wrist_rest.jpg" alt="Wrist rest model">
+      <p>A wrist rest I needed to use when I got a mechanical keyboard due to its height. One side is lower than the other, so it isn't a perfect rectangle.</p>
     </section>
   </body>
 
