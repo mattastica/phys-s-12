@@ -213,8 +213,13 @@ td {
 
 /* Media */
 
-iframe, video, img, .img-duo, .img-trip, .img-quad {
-  width: clamp(20rem, 45vw, 160rem); 
+iframe, video, img {
+  width: clamp(20rem, 45vw, 160rem);
+  margin-bottom: 2rem;
+  align-self: center;
+}
+
+.img-duo, .img-trip, .img-quad {
   margin-bottom: 2rem;
   align-self: center;
 }
@@ -253,8 +258,14 @@ img:has(+ .caption) {
 .img-trip {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 1.5rem;
-  overflow: hidden;
+}
+
+.blog > .img-trip,
+.blog > .img-quad {
+  grid-column: full;
 }
 
 .img-trip img {
