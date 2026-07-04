@@ -49,7 +49,7 @@
   const generate_note_shape = () => choose_random(NOTE_SHAPE_GENERATORS)();
 
 
-  // spawn one note. css keyframe `note-fall` drives the falling motion.
+  // spawn a note, css keyframe `note-fall` drives the falling motion
   const draw_random_note = (layer) => {
     const shape = generate_note_shape();
     const scale = rand(layer.scale[0], layer.scale[1]);
