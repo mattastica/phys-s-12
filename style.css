@@ -230,6 +230,12 @@ iframe, video {
   border: none;
 }
 
+video.hero-video {
+  height: auto;
+  max-height: 80vh;
+  object-fit: contain;
+}
+
 img {
   object-fit: cover;
 }
@@ -246,13 +252,51 @@ img:has(+ .caption) {
   gap: 1.5rem;
 }
 
-.img-duo img {
+.img-duo img,
+.img-duo video {
   width: clamp(14rem, 30vw, 28rem);
+  height: auto;
   margin-bottom: 0rem;
+}
+
+/* shrinks a video by ~20% so it doesn't tower over a paired photo */
+.img-duo video.short {
+  width: clamp(11.2rem, 24vw, 22.4rem);
 }
 
 .blog > .img-duo {
   grid-column: full;
+}
+
+/* image (or video) with text alongside it. stacks below 40rem. */
+.media-text {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+  margin-bottom: 2rem;
+}
+
+.media-text > img,
+.media-text > video {
+  width: 100%;
+  height: auto;
+  margin: 0;
+  align-self: start;
+}
+
+.media-text > :last-child > :last-child {
+  margin-bottom: 0;
+}
+
+.blog > .media-text {
+  grid-column: full;
+}
+
+@media (max-width: 40rem) {
+  .media-text {
+    grid-template-columns: 1fr;
+  }
 }
 
 .img-trip {
