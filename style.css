@@ -180,6 +180,12 @@ pre code {
   margin: 0%;
 }
 
+/* keep our pre background when highlight.js themes try to set their own */
+pre code.hljs {
+  background: transparent;
+  padding: 0;
+}
+
 table {
   border-collapse: collapse;
   width: 100%;
@@ -262,6 +268,22 @@ img:has(+ .caption) {
 /* shrinks a video by ~20% so it doesn't tower over a paired photo */
 .img-duo video.short {
   width: clamp(11.2rem, 24vw, 22.4rem);
+}
+
+/* widens an image by ~30% so a squat photo matches a skinny sketch's height */
+.img-duo img.wide {
+  width: clamp(18rem, 39vw, 36rem);
+}
+
+/* an img-duo column that stacks a caption underneath its image */
+.img-duo .stack {
+  display: flex;
+  flex-direction: column;
+  width: clamp(14rem, 30vw, 28rem);
+}
+
+.img-duo .stack img {
+  width: 100%;
 }
 
 .blog > .img-duo {

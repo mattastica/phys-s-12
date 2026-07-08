@@ -13,6 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github.min.css">
   </head>
 
   <nav>
@@ -25,18 +26,119 @@
     <section class="blog">
       <h1>Week 4: Programming</h1>
 
-      <p>
-        Program your Xiao to do something. Explain how your code works and link any tutorials or resources you used. Record a video, include code snippets, and draw a schematic of your circuit.
-      </p>
-    
-      <p>
-        Add a <a href="./rawcode.html" target="_blank">link to your raw code</a>.
-      </p>
+      <h2>Sensor-Based Interlocking Tiles</h2>
+      <p>Below is video from a software prototype of my first project idea, <a href="../01_intro/index.html">Melodia</a>, a physical tile-based music strategy and learning game. The LEDs
+      blink where the valid tile placements can occur. The tiles magnetically interlock, and upon sensing interlock the LED
+      stops blinking.</p>
+
+      <video class="hero-video" autoplay muted loop playsinline controls>
+        <source src="./Assets/simulate-place-tile.mp4" type="video/mp4">
+      </video>
+      <h2>Define Prototype</h2>
+      <p>Two boards that connect and at least one LED that indicates connection status.</p>
+      <h3>Goals</h3>
+      <ul>
+        <li>Use breadboard as tiles</li>
+        <li>Two tiles can magnetically interlock on a side</li>
+        <li>A non-interlocked tile will blink an LED to indicate a side that can be connected</li>
+        <li>Interlocked tiles will have a solid LED (opposite of game, but easier to identify)</li>
+        <li>Try to develop locking and sensing mechanisms using lab components</li>
+      </ul>
+
+      <h2>Sense Connection</h2>
+      <div class="media-text">
+        <img src="./Assets/magnet-and-sensor.jpg" alt="Magnet and hall effect sensor pairing sketch">
+        <div>
+          <p>The idea is to have a face of two boards have opposing magnet and hall effect sensor.</p>
+          <ul>
+            <li>Digital 3144 series hall effect</li>
+            <li>Direct magnet, mounted on board somehow</li>
+          </ul>
+        </div>
+      </div>
+
+      <h2>Magnetically Interlock</h2>
+      <div class="media-text">
+        <img src="./Assets/interlocking-boards.jpg" alt="Sketch of interlocking boards with hall sensor and magnet orientations">
+        <div>
+          <p>The idea here is that interlock will occur through magnetic attraction. The sketch shows orientation of halls and magnets, but also how a multi-board arrangement might look. The asymmetry assures pairs.</p>
+          <h3>Considerations</h3>
+          <ul>
+            <li>Interlock magnetics will be independent of connection sensing magnetics</li>
+            <li>Must ensure magnetic radiation from interlock magnet on a non-connected board doesn't trigger its connection sensor (i.e. no false-positive connects)</li>
+            <li>Need opposing magnetics or a magnetic surface for boards</li>
+          </ul>
+        </div>
+      </div>
+
+      <h2>Circuit Diagram & Board</h2>
+      <div class="img-duo">
+        <img src="./Assets/circuit-diagram.jpg" alt="Circuit diagram for hall sensor and LED on the Xiao">
+        <img src="./Assets/board-top.jpg" class="wide" alt="Top view of the breadboard with Xiao, hall sensor, and LED">
+      </div>
+      <ul>
+        <li>Board only implements half the circuit diagram &mdash; originally each board was to support two connectable sides but ran out of breadboard space with the Xiao on it</li>
+        <li>Hall sensor requires 3.3v (VDD) and the Xiao's built-in pull-up resistor</li>
+      </ul>
+
+      <h2>Functional Prototype</h2>
+      <div class="media-text">
+        <video autoplay muted loop playsinline controls>
+          <source src="./Assets/connect-board.mp4" type="video/mp4">
+        </video>
+        <div>
+          <pre><code>const int HALL_SOUTH_PIN = D0;
+const int LED_SOUTH_PIN = D1;
+
+const unsigned long BLINK_INTERVAL_MS = 300;
+
+unsigned long lastBlinkTime = 0;
+bool ledState = LOW;
+
+void setup() {
+  pinMode(HALL_SOUTH_PIN, INPUT_PULLUP);
+  pinMode(LED_SOUTH_PIN, OUTPUT);
+}
+
+void loop() {
+  bool isConnected =
+    digitalRead(HALL_SOUTH_PIN) == LOW;
+
+  if (isConnected) {
+    digitalWrite(LED_SOUTH_PIN, HIGH);
+  } else {
+    unsigned long now = millis();
+    if (now - lastBlinkTime >= BLINK_INTERVAL_MS) {
+      lastBlinkTime = now;
+      // blink aka flip the light on/off!
+      ledState = !ledState;
+      digitalWrite(LED_SOUTH_PIN, ledState);
+    }
+  }
+}</code></pre>
+          <p><a href="./rawcode.html" target="_blank">Raw code</a></p>
+          <h3>Success</h3>
+          <p>Hall sensor threshold is sufficient that the magnetic radiation of a strong magnet beneath it, and the connecting board's magnet, does not trigger it. Hence the blinking stops upon interlock only.</p>
+        </div>
+      </div>
+
+      <h2>Connection Sensor & Magnet Mount</h2>
+        <p class="caption">Shout out to Victor for pointing out these components I used for a mount. I don't think he
+          realized exactly how I'd use them when I asked for "something flat that could plug into a breadboard that I can glue on." It took two and some tape to be rigid enough to wrangle the magnet.</p>
+      <div class="img-duo">
+        <img src="./Assets/board-side.jpg" alt="Side profile of the breadboard tile">
+        <div class="stack">
+          <img src="./Assets/magnet-mount.jpg" alt="Connection sensor magnet mounts">
+         </div>
+      </div>
+
     </section>
   </body>
 
   <footer>See config.js</footer>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+  <script>hljs.configure({ languages: ['cpp'] }); hljs.highlightAll();</script>
   <script src="../config.js"></script>
   <script src="../background-music.js" defer></script>
   <script src="../slideshow.js"></script>

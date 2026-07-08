@@ -1,5 +1,34 @@
 <link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+<script>window.addEventListener('DOMContentLoaded', () => { hljs.configure({ languages: ['cpp'] }); hljs.highlightAll(); });</script>
 
-<pre><code>// Put your code here
-Serial.print("Hello World!");
+<pre><code>const int HALL_SOUTH_PIN = D0;
+const int LED_SOUTH_PIN = D1;
+
+const unsigned long BLINK_INTERVAL_MS = 300;
+
+unsigned long lastBlinkTime = 0;
+bool ledState = LOW;
+
+void setup() {
+  pinMode(HALL_SOUTH_PIN, INPUT_PULLUP);
+  pinMode(LED_SOUTH_PIN, OUTPUT);
+}
+
+void loop() {
+  bool isConnected = digitalRead(HALL_SOUTH_PIN) == LOW;
+
+  if (isConnected) {
+    digitalWrite(LED_SOUTH_PIN, HIGH);
+  } else {
+    unsigned long now = millis();
+    if (now - lastBlinkTime >= BLINK_INTERVAL_MS) {
+      lastBlinkTime = now;
+      // blink aka flip the light on/off!
+      ledState = !ledState;
+      digitalWrite(LED_SOUTH_PIN, ledState);
+    }
+  }
+}
 </code></pre>
