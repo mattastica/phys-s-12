@@ -171,6 +171,7 @@ pre {
   padding: 1vw;
   background-color: var(--secondary-background-color);
   border-radius: 5px;
+  overflow-x: auto;
 }
 
 pre code {
@@ -270,9 +271,14 @@ img:has(+ .caption) {
   width: clamp(11.2rem, 24vw, 22.4rem);
 }
 
-/* widens an image by ~30% so a squat photo matches a skinny sketch's height */
+/* widens an image by ~30% so a squat photo matches a skinny sketch's height.
+   maxes chosen so wide + partner + gap fit the blog's 60rem full column. */
 .img-duo img.wide {
-  width: clamp(18rem, 39vw, 36rem);
+  width: clamp(18rem, 39vw, 32.5rem);
+}
+
+.img-duo:has(img.wide) img:not(.wide) {
+  width: clamp(14rem, 30vw, 25rem);
 }
 
 /* an img-duo column that stacks a caption underneath its image */
@@ -297,6 +303,10 @@ img:has(+ .caption) {
   gap: 1.5rem;
   align-items: start;
   margin-bottom: 2rem;
+}
+
+.media-text > * {
+  min-width: 0;
 }
 
 .media-text > img,
@@ -408,7 +418,8 @@ img:has(+ .caption) {
   grid-column: full;
 }
 
-.blog img {
+.blog img,
+.blog video {
   max-width: 100%;
 }
 
