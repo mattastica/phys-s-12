@@ -160,6 +160,16 @@ ul > li::before {
   color: var(--nes-yellow);
 }
 
+/* nested list: hollow marker, tucked under its parent item */
+ul ul {
+  margin-top: 0.4rem;
+  margin-bottom: 0;
+}
+
+ul ul > li::before {
+  content: '▻';
+}
+
 code {
   font-family: var(--mono-font-family);
   background-color: var(--secondary-background-color);
@@ -243,6 +253,13 @@ video.hero-video {
   object-fit: contain;
 }
 
+/* a hero video centered on the full column at the content width */
+.blog > video.hero-video.big {
+  grid-column: full;
+  justify-self: center;
+  width: min(85vw, 40rem);
+}
+
 img {
   object-fit: cover;
 }
@@ -271,6 +288,18 @@ img:has(+ .caption) {
   width: clamp(11.2rem, 24vw, 22.4rem);
 }
 
+/* shrinks a duo to ~70% for smaller subjects */
+.img-duo.small img,
+.img-duo.small video {
+  width: clamp(9.8rem, 21vw, 19.6rem);
+}
+
+/* shrinks a duo to ~90% */
+.img-duo.medium img,
+.img-duo.medium video {
+  width: clamp(12.6rem, 27vw, 25.2rem);
+}
+
 /* widens an image by ~30% so a squat photo matches a skinny sketch's height.
    maxes chosen so wide + partner + gap fit the blog's 60rem full column. */
 .img-duo img.wide {
@@ -293,6 +322,47 @@ img:has(+ .caption) {
 }
 
 .blog > .img-duo {
+  grid-column: full;
+}
+
+/* wide tables (e.g. a BOM) get the full column */
+.blog > .bom {
+  grid-column: full;
+}
+
+/* interactive 3D model viewer (stl-viewer.js) */
+.stl-viewer {
+  position: relative;
+  width: 100%;
+  height: clamp(18rem, 50vw, 32rem);
+  margin-bottom: 0.5rem;
+  background-color: var(--secondary-background-color);
+  border-radius: 5px;
+  touch-action: none;
+}
+
+.stl-viewer::before {
+  content: 'Loading scan…';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--nes-pixel-font);
+  text-transform: uppercase;
+}
+
+.stl-viewer.loaded::before {
+  content: none;
+}
+
+.stl-viewer canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.blog > .stl-viewer {
   grid-column: full;
 }
 

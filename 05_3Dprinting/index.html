@@ -24,12 +24,150 @@
   <body>
     <section class="blog">
       <h1>Week 5: 3D Printing</h1>
-     
-      <p>
-        Design and print something that cannot be made easily through subtractive methods. Include a Fusion file (eg. <code>.f3z</code>), STL of your object, and sliced gcode in your documentation. 
-      </p>
+
+      <h2>3D Printing</h2>
+      <p>I decided to print the model of my <a href="../02_2Ddesign/index.html">MBTA coaster</a> from week 2. After slicing it in Prusa, the estimated time to print (ETP) came out to <i>1 hour 45 minutes!</i> So I scaled it down a bit until the ETP was 10 minutes on an MK3. Then I converted to MK4 format because MK3s weren't available, and ETP became 6 minutes.</p>
+      <p>Then I printed, and well, it's tiny. Check out the scale differences:</p>
+      <div class="img-duo small">
+        <img src="./Assets/mbta_coaster.jpg" alt="Original MBTA coaster set">
+        <img src="./Assets/3d_coaster_zoom.jpeg" alt="Close-up of the tiny printed coaster">
+      </div>
+      <div class="img-duo small">
+        <img src="./Assets/mbta_coaster_sketch.jpg" alt="MBTA coaster Fusion 360 sketch">
+        <img src="./Assets/3d_coaster_scale.jpeg" alt="Printed coaster next to the original for scale">
+      </div>
+
+      <h3>Insights</h3>
+      <ul>
+        <li>Scaling something down in 3 dimensions seems more dramatic than 2 dimensions</li>
+        <li>Scaling has side effects &mdash; we lost fidelity on the model.
+          <ul>
+            <li>The T and circle engraving is actually using an offset, but after scaling down the model the offset is smaller than (or too close to) the diameter of the 3D printer's nozzle</li>
+            <li>The effect is the T and circle are not visible on the 3D print</li>
+          </ul>
+        </li>
+        <li>Even simple things take a long time to print</li>
+        <li>MK3 and MK4 formats or the machines themselves are different &mdash; all I did was change format and the ETP changed</li>
+      </ul>
+
+      <h2>Final Project Update</h2>
+      <video class="hero-video big" autoplay muted loop playsinline controls>
+        <source src="./Assets/melodia-endgame-loop.mp4" type="video/mp4">
+      </video>
+      <p>I'm committing to my first project <a href="../01_intro/index.html">Melodia</a>, the physical tile-based music game, as my final project. <b>But</b> with a twist that folds in my <a href="../01_intro/index.html">Keystone</a> idea too. By adding a gesture sensor, a single tile can double as a Keystone: pick it up and <i>cast</i> musical notes with it like a wand. I think an easy adapter is a necklace with a magnet on it that lets you wear a tile around your neck, then I get Keystone fro for free.</p>
+      <aside class="callout">
+        <span class="callout-label">Playable Prototype</span>
+        <p>The game itself is further along than the hardware &mdash; <a href="./melodia-prototype/index.html">play a transpiled Melodia prototype</a> in the browser. I've been testing with musical and non-musical PSCYH S-1609 Neuroscience students and some elements are working well whereas others are not working well. So I'll be adding more game modes and tutorials where ultimately the only thing you interact with is the tile.</p>
+      </aside>
+      <div class="img-duo">
+        <img src="./Assets/display-front.jpg" alt="Front of the Seeed round touch display">
+        <img src="./Assets/display-back.jpg" alt="Back of the Seeed round touch display">
+      </div>
+      <p>The <a href="../04_microcontroller/index.html">week 4 prototype</a> proved out connection sensing with hall effect sensors and magnets. The big change since then: switching to the Seeed 1.28" Round Touch Display for XIAO. It eliminates the need for LEDs entirely, and brings a lot with it:</p>
+      <ul>
+        <li>Battery charging chip and charge status indicator</li>
+        <li>Touch display &mdash; input without any buttons</li>
+        <li>Backlight</li>
+        <li>CR coin battery for a permanent clock (RTC)</li>
+      </ul>
+      <img src="./Assets/chip-and-battery.jpg">
+      <p class="caption">Just showing this 800mAh battery for scale/fit — battery female end will be soldered to Seed Display battery management
+      chip - has +/- battery surfaces..</p>
+      <p>With display, power, and input handled, the only custom electronics left to worry about is sensing &mdash; the hall sensors per side plus a two-pad contact sensor on top of each tile.</p>
+
+      <h3>Technical Considerations</h3>
+      <ul>
+        <li>Everything hangs off one I2C bus &mdash; the round display, the MCP23008 expander, and the gesture sensor need non-conflicting addresses (might be able to use a IMU instead)</li>
+        <li>The bare A3144 hall sensors need pull-ups &mdash; the MCP23008's internal pull-ups resistors can handle without xtra resistors</li>
+        <li>One 800 mAh LiPo has to power the display, the XIAO's radio, and all the sensors &mdash; battery life needs measuring with ESP-NOW active, could be 4-8hrs with some estimates</li>
+        <li>There are really 3 questions tiles ask: who is N/E/S/W of me, is anyone above me (contact sensor), and where is everyone in the grid.</li>
+        <li>Tiles talk over ESP-NOW, so note timing between tiles has to stay tight enough to feel musical.  I've also solved the arrangement detection algorithm using hall sensors and timestamps/seq on placement.</li>
+        <li>The <b>hardest parts</b> I think will be (1) figuring out how to mount/<b>detect the tile sitting atop you</b>, I'm hoping this two-pad contact sensor and bridge thing works. Will discuss with lab team. (2) <b>fitting everything in this case.</b></li>
+        <li>Just realized I don't have a buzzer included! Buzzer is monophonic but small, I can get 2 octaves but at different volumes. If sound is jenky might want to upgrade to an amp+speaker, but space! Need holes for sound emission in case? Polyphony ishandled by concurrent tiles. This should just be 'play at near future time' packet to everyone.</li>
+        <li>The enclosure work is blocked on converting the <code>.stl</code> mesh to Fusion bodies so I can extend the case with the side sensor and magnet interlock pockets on N/E/S/W sides</li>
+      </ul>
+
+      <h3>Rough Timeline</h3>
+      <ul>
+        <li>Week 4 — (This week) Revise the BOM, solve sound output issue and space, design and print case with 8 magnets slots and 4 hall sensor side mounts (North, E, S, W). Order additional parts.</li>
+        <li>Week 5 — Mount 3 Xiaos in X Seed Display into Case. Wire up halls for sensing. Test wireless arrangement sensing and simple 3 tile game. Document case issues.</li>
+        <li>Week 6 — Build 9 tiles. Expand software for 3x3 grid. Solve the top two contact/conductive bridge (anyone on top of me?) sensing issue.</li>
+        <li>Week 7 — More integration work, bug fixing, upgrades (buzzer sound ok or need amp+speaker?).</li>
+      </ul>
+
+      <h3>Bill of Materials</h3>
+      <table class="bom">
+        <thead>
+          <tr><th>Qty</th><th>Component</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td><a href="https://www.seeedstudio.com/1-28-Round-Touch-Display-for-Seeed-Studio-XIAO-ESP32.html">Seeed 1.28" Round Touch Display for XIAO</a></td>
+            <td>Main screen and touch input. 39 mm round 240&times;240 touch display with RTC, charge circuit, TF slot, and JST 1.25 battery connector. XIAO snaps right in.</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td><a href="https://wiki.seeedstudio.com/XIAO_ESP32C3_Getting_Started/">Seeed XIAO ESP32 board</a></td>
+            <td>A wireless XIAO ESP32C3 for ESP-NOW between tiles. 2.4 GHz Wi-Fi and BLE.</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td><a href="https://www.adafruit.com/product/593">MCP23008 I2C GPIO expander</a></td>
+            <td>8 digital GPIO pins over I2C. Each pin can be input, output, or input with internal pull-up.</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>A3144 digital hall effect sensors</td>
+            <td>One per side: north/east/south/west. Bare A3144-style sensors need pull-ups &mdash; the MCP23008 internal pull-ups cover that.</td>
+          </tr>
+          <tr>
+            <td>8</td>
+            <td>5&times;5 mm magnets</td>
+            <td>Two per side: one for snapping/alignment, one to trigger the neighboring tile's hall sensor.</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td><a href="https://wiki.seeedstudio.com/grove_gesture_paj7660/">Grove Smart IR Gesture Sensor (PAJ7660)</a></td>
+            <td>The wand input for Keystone mode. I2C, so it drops onto the same bus as the expander.</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>800 mAh 3.7V LiPo battery</td>
+            <td>Needs a matching JST 1.25 mm 2-pin plug for the round display.</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>Two-pad top contact sensor</td>
+            <td>Fabricated from two exposed conductive pads on the top of the tile. Reads "tile/something above me."</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>Bottom conductive bridge</td>
+            <td>Copper tape, brass strip, plated PCB pad, or spring contact on the underside of each tile. Bridges the top contact pads of the tile below.</td>
+          </tr>
+          <tr>
+            <td>&mdash;</td>
+            <td>Wire / solder / maybe: custom PCB / other misc. stuff</td>
+            <td>For routing hall sensors, magnets, contact pads, I2C, and power.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>Enclosure for Melodia Tile</h2>
+      <div class="img-duo">
+        <img src="./Assets/case-top.jpg" alt="Top view of the round display case model">
+        <img src="./Assets/case-side.jpg" alt="Side view of the round display case model">
+      </div>
+      <p>I found a case in <code>.stl</code> form for mounting the Seeed Round Display (<a href="./Assets/round-display-case.stl" download>download</a>). My plan is to extend it with four side cases, each holding a hall-sensor and magnet pair &mdash; one for interlock, the other for triggering the neighboring tile's sensor.</p>
+      <p>I'm having trouble with the conversion of <code>.stl</code> mesh to bodies in Fusion right now &mdash; still working through it.</p>
+
+      <h2>3D Scan of Francis Davis Millet</h2>
+      <p>Francis Davis Millet (1846&ndash;1912) was an American painter and writer, Harvard class of 1869, who served as a drummer boy in the Civil War and directed the decorations for the 1893 World's Columbian Exposition in Chicago. He died aboard the Titanic &mdash; which makes his bust a fitting resident of Widener Library, itself built in memory of Harry Elkins Widener, another Titanic victim.</p>
+      <p>The bust sits on the top floor of Widener, just outside the reading room. I used photogrammetry for over <b>45 minutes</b> to scan this thing several times, but only managed to capture some of his face &mdash; more passes needed.</p>
+      <div class="stl-viewer" data-src="./Assets/francis-davis-millet.stl"></div>
+      <p class="caption">Can explore the scan above (or <a href="./Assets/francis-davis-millet.stl" download>download the .stl</a>).</p>
       
-      <p>This is how you create <a href="./Assets/example_part.stl" download>a link to download a file</a>.</p>
     </section>
   </body>
 
@@ -38,4 +176,13 @@
   <script src="../config.js"></script>
   <script src="../background-music.js" defer></script>
   <script src="../slideshow.js"></script>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+  <script type="module" src="../stl-viewer.js"></script>
 </html>

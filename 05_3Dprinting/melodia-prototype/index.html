@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Melodia — Prototype</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <header>
+      <h1>MELODIA</h1>
+      <div id="scorebar">
+        <span id="score1" class="score p1">P1: 0</span>
+        <span id="turnlabel"></span>
+        <span id="contested"></span>
+        <span id="score2" class="score p2">P2: 0</span>
+      </div>
+            <button id="modebtn"></button>
+      <button id="playersbtn"></button>
+      <div id="settings">
+        <button id="settingsbtn">&#9881; Settings</button>
+        <div id="settings-panel" class="hidden">
+          <button id="cpubtn"></button>
+          <button id="levelbtn"></button>
+          <button id="notationbtn"></button>
+          <button id="soundbtn"></button>
+        </div>
+      </div>
+      <button id="newgame">Restack</button>
+    </header>
+
+    <main>
+      <aside id="hand1" class="hand p1">
+        <h2>Player 1</h2>
+        <div class="cards"></div>
+      </aside>
+
+      <section id="surface">
+        <div id="boardwrap"></div>
+                <div id="stack" class="hidden"><span class="sled"></span></div>
+        <div id="dealhint" class="hidden">Tap the deck to deal</div>
+        <div id="stackzone" class="hidden"></div>
+      </section>
+
+      <aside id="hand2" class="hand p2">
+        <h2>Player 2</h2>
+        <div class="cards"></div>
+      </aside>
+    </main>
+
+    <footer id="status">Click a card in Player 1&rsquo;s hand, then click a glowing cell to place it (Esc deselects).</footer>
+
+    <div id="overlay" class="hidden">
+      <div id="overlay-box">
+        <h2 id="result"></h2>
+        <p id="final"></p>
+        <button id="again">Restack</button>
+      </div>
+    </div>
+
+        <div id="rules" class="hidden">
+      <div id="rules-box">
+        <h2>HOW TO PLAY</h2>
+        <p id="rules-goal" class="subtitle"></p>
+        <div id="rules-cols"></div>
+        <button id="rulesok">Got it &mdash; tap the deck to deal</button>
+      </div>
+    </div>
+
+    <script src="melodia.js"></script>
+  </body>
+</html>
