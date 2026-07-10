@@ -77,7 +77,7 @@
 
       <h3>Technical Considerations</h3>
       <ul>
-        <li>Everything hangs off one I2C bus &mdash; the round display, the MCP23008 expander, and the gesture sensor need non-conflicting addresses (might be able to use a IMU instead)</li>
+        <li>The round LCD and onboard components uses SPI (like 6 pins!), while the round display’s touch, RTC (clock), the MCP23008 expander (for hall fx), and the gesture sensor all share the same I2C bus. (Might be able to use a IMU instead for gesture sensor.)</li>
         <li>The bare A3144 hall sensors need pull-ups &mdash; the MCP23008's internal pull-ups resistors can handle without xtra resistors</li>
         <li>One 800 mAh LiPo has to power the display, the XIAO's radio, and all the sensors &mdash; battery life needs measuring with ESP-NOW active, could be 4-8hrs with some estimates</li>
         <li>There are really 3 questions tiles ask: who is N/E/S/W of me, is anyone above me (contact sensor), and where is everyone in the grid.</li>
@@ -163,8 +163,8 @@
       <p>I'm having trouble with the conversion of <code>.stl</code> mesh to bodies in Fusion right now &mdash; still working through it.</p>
 
       <h2>3D Scan of Francis Davis Millet</h2>
-      <p>Francis Davis Millet (1846&ndash;1912) was an American painter and writer, Harvard class of 1869, who served as a drummer boy in the Civil War and directed the decorations for the 1893 World's Columbian Exposition in Chicago. He died aboard the Titanic &mdash; which makes his bust a fitting resident of Widener Library, itself built in memory of Harry Elkins Widener, another Titanic victim.</p>
-      <p>The bust sits on the top floor of Widener, just outside the reading room. I used photogrammetry for over <b>45 minutes</b> to scan this thing several times, but only managed to capture some of his face. I'm not sure really sure what happened, I think it could have been lighting. But I have 2GB of photos of every angle of this guy.</p>
+      <p>Francis Davis Millet (1846&ndash;1912) was an American painter and writer, Harvard class of 1869, who served as a drummer boy in the Civil War and directed the decorations for the 1893 World's Columbian Exposition in Chicago. He died aboard the Titanic. (Wikipedia) This makes his bust a fitting resident of Widener Library, because the library was built in memory of Harry Elkins Widener, another Titanic victim.</p>
+      <p>The bust sits on the top floor of Widener, just outside the reading room. I used photogrammetry for over <b>45 minutes</b> to scan this thing several times, but only managed to capture some of his face. I'm not really sure what happened, I think it could have been lighting. But I have 2GB of photos of every angle of this guy. <b>My phone was actual extremely low on storage towards the end of the scan, so maybe that affected some of the processing step? That step did fail the first time<b>.</p>
       <div class="stl-viewer" data-src="./Assets/francis-davis-millet.stl"></div>
       <p class="caption">Can explore the scan above (or <a href="./Assets/francis-davis-millet.stl" download>download the .stl</a>).</p>
       
