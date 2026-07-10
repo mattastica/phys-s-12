@@ -300,6 +300,12 @@ img:has(+ .caption) {
   width: clamp(12.6rem, 27vw, 25.2rem);
 }
 
+/* shrinks a duo to ~50% */
+.img-duo.half img,
+.img-duo.half video {
+  width: clamp(7rem, 15vw, 14rem);
+}
+
 /* widens an image by ~30% so a squat photo matches a skinny sketch's height.
    maxes chosen so wide + partner + gap fit the blog's 60rem full column. */
 .img-duo img.wide {
@@ -336,6 +342,13 @@ img:has(+ .caption) {
     display: block;
     overflow-x: auto;
   }
+}
+
+/* an MLOG entry: a dated block, separated from the next by a thick rule */
+.mlog-entry {
+  padding-bottom: 1rem;
+  border-bottom: 4px solid var(--secondary-background-color);
+  margin-bottom: 2rem;
 }
 
 /* interactive 3D model viewer (stl-viewer.js) */
