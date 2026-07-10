@@ -338,7 +338,6 @@ img:has(+ .caption) {
   margin-bottom: 0.5rem;
   background-color: var(--secondary-background-color);
   border-radius: 5px;
-  touch-action: none;
 }
 
 .stl-viewer::before {

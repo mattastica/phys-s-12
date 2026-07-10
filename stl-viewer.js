@@ -24,6 +24,11 @@ function initViewer(container) {
   controls.enableDamping = true;
   controls.autoRotate = true;
   controls.autoRotateSpeed = 1.5;
+  controls.enablePan = false;
+  // don't hijack the page's scroll wheel until the viewer is engaged
+  controls.enableZoom = false;
+  renderer.domElement.addEventListener('pointerdown', () => { controls.enableZoom = true; });
+  container.addEventListener('pointerleave', () => { controls.enableZoom = false; });
 
   new STLLoader().load(container.dataset.src, (geometry) => {
     geometry.computeVertexNormals();
@@ -41,6 +46,8 @@ function initViewer(container) {
     camera.far = size * 10;
     camera.position.set(0, size * 0.15, size * 0.9);
     camera.updateProjectionMatrix();
+    controls.minDistance = size * 0.4; // zoom can never enter the mesh
+    controls.maxDistance = size * 2.5;
     controls.update();
     container.classList.add('loaded');
   });
