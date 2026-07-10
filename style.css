@@ -330,6 +330,14 @@ img:has(+ .caption) {
   grid-column: full;
 }
 
+/* on narrow screens the BOM scrolls in place instead of stretching the page */
+@media (max-width: 40rem) {
+  .blog > .bom {
+    display: block;
+    overflow-x: auto;
+  }
+}
+
 /* interactive 3D model viewer (stl-viewer.js) */
 .stl-viewer {
   position: relative;
