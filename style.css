@@ -415,6 +415,19 @@ img:has(+ .caption) {
   grid-column: full;
 }
 
+/* a media-text column that stacks multiple images vertically */
+.media-text > .stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.media-text > .stack img {
+  width: 100%;
+  height: auto;
+  margin: 0;
+}
+
 @media (max-width: 40rem) {
   .media-text {
     grid-template-columns: 1fr;

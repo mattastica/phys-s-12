@@ -30,9 +30,107 @@
       </p>
       
       <h2>Capacitive Sensor</h2>
-      
+
+      <h3>Water Level Detector</h3>
+      <div class="img-duo small">
+        <img src="./Assets/water-level-sensor.png" alt="Water bottle with conductive strips taped to opposing sides, alligator-clipped to transmission and read wires">
+        <img src="./Assets/water-level-sensor-log.png" alt="Notebook log of capacitance readings at 0, 25, 50, 75, and 100 percent water levels">
+      </div>
+      <p>We designed a simple water level sensor that roughly positively correlated its outputs with the water level:</p>
+      <ul>
+        <li>Two conductive materials mounted on opposing sides of a water bottle, full length</li>
+        <li>Transmission and read wires alligator clipped to each</li>
+        <li>Focused on measuring the change in permittivity between the conductive materials, i.e. water level</li>
+      </ul>
+
+      <svg viewBox="0 0 480 260" role="img"
+           aria-label="Line chart of capacitance reading versus water level: 250 at 0%, 251 at 25%, 256 at 50%, 266 at 75%, 263 at 100%"
+           style="display: block; width: 100%; max-width: 26rem; height: auto; margin: 0 auto 0.5rem;">
+        <!-- gridlines -->
+        <line x1="48" y1="176" x2="464" y2="176" stroke="#e5e4de" stroke-width="1"/>
+        <line x1="48" y1="96" x2="464" y2="96" stroke="#e5e4de" stroke-width="1"/>
+        <line x1="48" y1="16" x2="464" y2="16" stroke="#e5e4de" stroke-width="1"/>
+        <!-- baseline -->
+        <line x1="48" y1="216" x2="464" y2="216" stroke="#c3c2b7" stroke-width="1"/>
+        <!-- y tick labels (capacitance read) -->
+        <g fill="#6c757d" font-size="12" text-anchor="end">
+          <text x="42" y="180">250</text>
+          <text x="42" y="100">260</text>
+          <text x="42" y="20">270</text>
+        </g>
+        <!-- x tick labels (level %) -->
+        <g fill="#6c757d" font-size="12" text-anchor="middle">
+          <text x="48" y="234">0</text>
+          <text x="152" y="234">25</text>
+          <text x="256" y="234">50</text>
+          <text x="360" y="234">75</text>
+          <text x="464" y="234">100</text>
+        </g>
+        <text x="256" y="256" fill="#6c757d" font-size="12" text-anchor="middle">Water level (%)</text>
+        <text x="14" y="116" fill="#6c757d" font-size="12" text-anchor="middle" transform="rotate(-90 14 116)">Capacitance read</text>
+        <!-- data line -->
+        <polyline points="48,176 152,168 256,128 360,48 464,72"
+                  fill="none" stroke="#1b8ada" stroke-width="2"
+                  stroke-linejoin="round" stroke-linecap="round"/>
+        <!-- peak label -->
+        <text x="360" y="34" fill="#212529" font-size="12" text-anchor="middle">266</text>
+        <!-- markers -->
+        <g fill="#1b8ada" stroke="#ffffff" stroke-width="2">
+          <circle cx="48" cy="176" r="4"><title>0%: 250</title></circle>
+          <circle cx="152" cy="168" r="4"><title>25%: 251</title></circle>
+          <circle cx="256" cy="128" r="4"><title>50%: 256</title></circle>
+          <circle cx="360" cy="48" r="4"><title>75%: 266</title></circle>
+          <circle cx="464" cy="72" r="4"><title>100%: 263</title></circle>
+        </g>
+      </svg>
+      <p class="caption" style="text-align: center;">Capacitance reading vs. water level, from the log above</p>
+
+      <h3>Insights</h3>
+      <ul>
+        <li>We ran multiple tests that suffered from changing variables</li>
+        <li>Materials got wet! (Bottle was moved to sink between measurements)</li>
+        <li>Connection areas and methods changed (remounting wire vs. alligator clipping)</li>
+        <li>In the end a static bottle, and bringing the water to it, gave the best reads</li>
+      </ul>
+
+      <h2>CNC Design | Circuit Board</h2>
+      <div class="media-text">
+        <div class="stack">
+          <img src="./Assets/schematic.png" alt="KiCad schematic of the circuit, with component symbols wired together">
+          <img src="./Assets/pcb.png" alt="KiCad PCB editor view of the board with traces and edge cuts">
+          <img src="./Assets/circuit-board.jpg" alt="The physical circuit board milled on the CNC machine">
+        </div>
+        <div>
+          <p>This board just takes a XIAO ESP32, a resistor, and an LED. It's a through-hole design, so you push components through the back and solder them on the front copper. The most interesting thing about this design is that the <b>entire front face acts as ground</b>!</p>
+          <p>This weekend we learned how to use <b>KiCad</b> in Victor's workshop to design printed circuit boards. Basically you define components as symbols, import and connect them into a circuit in the schematic to create footprints, and import the footprints into the PCB (printed circuit board) editor and create traces (like wires) and shape to produce a manufacturable board in the PCB editor.</p>
+          <p>After that we used some tool from an MIT student (<a href="https://quentinbolsee.pages.cba.mit.edu/gerber2img/" target="_blank"><b>gerber2img</b></a>) to take our design files and translate them into inputs for the CNC machine. We actually printed one of our boards!</p>
+          <p>There are two files, one for the circuit board, and one for the drill holes.</p>
+          <h3>Files</h3>
+          <p><b>Inputs to gerber2img</b></p>
+          <ul>
+            <li><a href="./Assets/first_pcb-F_Cu.gbr" download>first_pcb-F_Cu.gbr</a> &mdash; front copper traces</li>
+            <li><a href="./Assets/first_pcb-Edge_Cuts.gbr" download>first_pcb-Edge_Cuts.gbr</a> &mdash; board outline</li>
+            <li><a href="./Assets/first_pcb-PTH.drl" download>first_pcb-PTH.drl</a> &mdash; plated through-hole drill file</li>
+            <li><a href="./Assets/first_pcb-NPTH.drl" download>first_pcb-NPTH.drl</a> &mdash; non-plated through-hole drill file</li>
+          </ul>
+          <p><b>Outputs from gerber2img, into the CNC</b></p>
+          <ul>
+            <li><a href="./Assets/render_front.png" download>render_front.png</a> &mdash; circuit board traces</li>
+            <li><a href="./Assets/render_edge_cuts.png" download>render_edge_cuts.png</a> &mdash; board outline</li>
+          </ul>
+        </div>
+      </div>
+
       <h2>Another Sensor</h2>
-      
+
+      <h3>Microphone Sensor</h3>
+      <div class="media-text">
+        <img src="./Assets/mic-circuit.jpg" alt="Breadboard circuit with a microphone module and LED wired to a microcontroller">
+        <div>
+          <p>The goal of this circuit is to measure microphone input, with a baseline of "ambient" or no noise, and then blink the light as the volume increases until we reach the max, in which case the blinking stops and the LED is solid.</p>
+        </div>
+      </div>
+
     </section>
   </body>
 
