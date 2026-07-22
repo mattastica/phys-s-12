@@ -30,7 +30,12 @@ function initViewer(container) {
   renderer.domElement.addEventListener('pointerdown', () => { controls.enableZoom = true; });
   container.addEventListener('pointerleave', () => { controls.enableZoom = false; });
 
-  new STLLoader().load(container.dataset.src, (geometry) => {
+  new STLLoader().load(container.dataset.src, onLoad, undefined, (err) => {
+    container.dataset.loading = 'Failed to load model';
+    console.error('stl-viewer: could not fetch', container.dataset.src, err);
+  });
+
+  function onLoad(geometry) {
     geometry.computeVertexNormals();
     geometry.center();
     const mesh = new THREE.Mesh(geometry, new THREE.MeshStandardMaterial({
@@ -50,7 +55,7 @@ function initViewer(container) {
     controls.maxDistance = size * 2.5;
     controls.update();
     container.classList.add('loaded');
-  });
+  }
 
   function resize() {
     const w = container.clientWidth;

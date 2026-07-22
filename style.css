@@ -362,7 +362,7 @@ img:has(+ .caption) {
 }
 
 .stl-viewer::before {
-  content: 'Loading scan…';
+  content: attr(data-loading);
   position: absolute;
   inset: 0;
   display: flex;

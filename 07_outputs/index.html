@@ -56,23 +56,59 @@
         <li>Add touch mechanism for restarting game</li>
       </ul>
 
-      <h3>Devices for Scale</h3>
+      <h2>Detecting N, E, S, W</h2>
+
+      <h3>Magnets and Voltage Dividers</h3>
+      <div class="media-text split-60">
+        <img src="./Assets/voltage_dividing_circuit.jpg" alt="Hand-drawn diagram of the voltage dividing network: magnetic switches for North, South, East, and West feeding two XIAO analog pins">
+        <div>
+          <p>We have two voltage dividers per pin, and two pins per device, so 4 voltage dividers in total that are built on a device to detect cardinal connections: N, E, S, W. Organized into N+S and E+W pairs, which have separate circuits but are identical in structure.</p>
+          <p>So for N+S we have:</p>
+          <ul>
+            <li>No connection &mdash; 3.3v</li>
+            <li>North connected (R=10k+10k) &mdash; 1.65v</li>
+            <li>South connected (R=10k+20k) &mdash; 2.2v</li>
+            <li>North + South connected (R=10k * 10k / 10k+20k) &mdash; ~6.67</li>
+          </ul>
+          <p>So then we have branches in code for this. I have proven this for N+S but need to make sure my circuit can support E+W in the same circuit I guess.</p>
+        </div>
+      </div>
+
+      <div class="img-duo half">
+        <img src="./Assets/magnetic_circuit_open.jpg" alt="Two wired magnetic connectors apart, circuit open">
+        <img src="./Assets/magnetic_circuit_exposed.jpg" alt="The connector pair held together, exposing the pogo pins and magnets">
+        <img src="./Assets/magnetic_circuit_closed.jpg" alt="The connector pair mated, closing the circuit">
+      </div>
+      <p class="caption" style="text-align: center;">The magnetic connector pair: open, contacts exposed, and closed</p>
+
+      <h2>Integrated Product</h2>
+
+      <h3>Case and Mounts for Scale</h3>
       <div class="img-duo">
         <img src="./Assets/melodia_devices_for_scale.jpg" alt="Two connected Melodia devices next to a pen for scale, screens facing up">
         <img src="./Assets/melodia_device_back_connetion.jpg" alt="Backs of two connected devices, showing the magnetic connector joining them">
       </div>
 
-      <h2>Detecting N, S, E, W</h2>
-
-      <h3>Magnets and Voltage Dividers</h3>
-      <div class="media-text split-60">
-        <img src="./Assets/voltage_dividing_circuit.jpg" alt="Hand-drawn diagram of the voltage dividing network: magnetic switches for North, South, East, and West feeding two XIAO analog pins">
-        <div class="stack">
-          <img src="./Assets/magnetic_circuit_open.jpg" alt="Two wired magnetic connectors apart, circuit open">
-          <img src="./Assets/magnetic_circuit_exposed.jpg" alt="The connector pair held together, exposing the pogo pins and magnets">
-          <img src="./Assets/magnetic_circuit_closed.jpg" alt="The connector pair mated, closing the circuit">
+      <h3>Design Enclosure</h3>
+      <div class="media-text">
+        <div style="display: flex; gap: 1rem; align-items: flex-start;">
+          <img src="./Assets/enclosure_magnetic_mount_sketch.jpg" alt="Chalkboard sketch of the enclosure's magnetic connector mounts with dimensions" style="width: calc(50% - 0.5rem); height: auto;">
+          <img src="./Assets/fusion_enclosure.png" alt="Fusion 360 model of the resurfaced enclosure with mount tabs, construction planes, and the center axis" style="width: calc(50% - 0.5rem); height: auto;">
+        </div>
+        <div>
+          <p>I learned a lot working on the enclosure in Fusion! Because this originated from an <code>.stl</code> model I had to import and resurface all of the faces and edges. There was no orientation to origin, so I had to identify the axis of origin, and then circumscribe the true circle. I learned how to project points from different planes to other planes as references (see axis in photo) and then got a better intuition for 3D. If you project from a bottom plane's rectangle to a perpendicular plane (think side) you're just going to get... a line and some points along it.</p>
+          <p>I created construction planes from projected lines and then offset construction planes from those to figure out the mount surface for each side, then sketched. I used rectangular patterns to rotate this around the axis (blue line) for each side. I did the same for wire holes that cut through the body for wire feeding.</p>
         </div>
       </div>
+
+      <div class="stl-viewer" data-src="./Assets/melodia_enclosure_bottom_mesh.stl" data-loading="Loading enclosure…"></div>
+      <p class="caption">Can explore the enclosure above (or download it below).</p>
+
+      <h3>Files</h3>
+      <ul>
+        <li><a href="./Assets/melodia_enclosure_bottom_mesh.stl" download>melodia_enclosure_bottom_mesh.stl</a> &mdash; enclosure bottom mesh</li>
+        <li><a href="./Assets/melodia_case_with_magnetic_connection_mounts.f3d" download>melodia_case_with_magnetic_connection_mounts.f3d</a> &mdash; Fusion 360 source</li>
+      </ul>
 
       <h2>Arrangement Detection Algorithm</h2>
       <p>Just what I've been sketching.</p>
@@ -87,4 +123,13 @@
   <script src="../config.js"></script>
   <script src="../background-music.js" defer></script>
   <script src="../slideshow.js"></script>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+  <script type="module" src="../stl-viewer.js"></script>
 </html>
