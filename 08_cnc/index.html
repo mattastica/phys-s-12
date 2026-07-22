@@ -25,10 +25,56 @@
     <section class="blog">
       <h1>Week 8: CNC</h1>
       
-      <p>
-        Design and fabricate something using one of the CNC machines in the lab. Make sure to include some kind of post processing in your design.
-      </p>
-      
+      <h2>CNC Design</h2>
+
+      <h3>Rotary Encoder</h3>
+      <div class="media-text">
+        <img src="./Assets/kicad_pcb_design.png" alt="KiCad PCB design for the rotary encoder board, with the XIAO ESP32 footprint mirrored">
+        <div>
+          <p>This is an enhancement on the previous PCB <a href="../06_inputs/index.html#cnc-design-plan">design</a> from Victor's workshop. Critically, it reflects the ESP32 component. We didn't previously mirror it, so when attaching the PCB it had the opposite traces. This turned out to be a great thing &mdash; it gave me more reps in KiCad, a solid understanding of common problems in PCB design, and a lot of reps on soldering. Tiny little surface, on tiny little mount, little component, soldering. 🫠 And board milling.</p>
+          <p>On milling, I encountered a lot of issues in use of the machine. Prematurely opening it within the 5 second window requiring a restart, the restart recalibrating, this happening between my front copper and drill holes &mdash; me needing to start over again. Ultimately a good thing because I learned a lot about the process.</p>
+          <h3>Files</h3>
+          <ul>
+            <li><a href="./Assets/first_pcb.kicad_pcb" download>first_pcb.kicad_pcb</a> &mdash; PCB layout source</li>
+            <li><a href="./Assets/first_pcb.kicad_pro" download>first_pcb.kicad_pro</a> &mdash; KiCad project</li>
+            <li><a href="./Assets/first_pcb.kicad_prl" download>first_pcb.kicad_prl</a> &mdash; local project settings</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="img-duo">
+        <img src="./Assets/rotary_encoder_pcb_front.jpg" alt="Front copper of the milled rotary encoder PCB, with traces and a soldered 1k resistor">
+        <img src="./Assets/rotary_encoder_pcb_back.jpg" alt="Back of the board with the rotary encoder and XIAO ESP32-C3 mounted">
+      </div>
+
+      <aside class="callout">
+        <span class="callout-label">Workflow Enhancement</span>
+        <p>We have been using scissors to cut the double sided tape which makes inaccurate cuts, muddies the scissors, and often leaves the tape uneven which can result in a non-level surface when milling. The latter can ruin your traces. Solution: a razor has been magnetized to the side of the drawers near the PCB mill. Just pull a piece of double sided tape to length, tape the edge on the table, and cut it with the razor. It's 3 small slices and you have a perfectly clean cut. I showed this workflow to Victor.</p>
+      </aside>
+
+      <h2>CNC Enclosure</h2>
+
+      <h3>Water Resistant Case</h3>
+      <div class="media-text">
+        <img src="./Assets/enclosure-knob.jpg" alt="PETG shell seated on the rotary encoder board with the encoder shaft poking through the side">
+        <div>
+          <p>Gurmani and I decided to team up to use the rotary encoder as a waterproof remote control for some future device we'll do in the networking project. She designed an enclosure for the mill and the idea was to vacuum seal a plastic mold for it.</p>
+          <h3>Process</h3>
+          <p>Mill multiple thin MDF layers separately, laminate them together to reach full height. No endmill depth problem, no structural risk. Sand smooth, chamfer edges lightly with a chisel, vacuum form PETG over the positive. Done.</p>
+          <p>She documented this in great <a href="https://gurmanikaurdesign.github.io/PHYS-S-12/08_cnc/index.html" target="_blank">detail</a>.</p>
+        </div>
+      </div>
+
+      <div class="img-duo small">
+        <img src="./Assets/enclosure-clamp.jpg" alt="Laminated MDF layers of the enclosure positive glued and held in a bar clamp">
+        <img src="./Assets/box-design.jpg" alt="Vacuum-formed PETG shell next to the laminated MDF positive it was formed over">
+        <img src="./Assets/enclosure-fit.jpg" alt="MDF positive beside the PETG shell fitted over the rotary encoder board">
+      </div>
+      <p class="caption" style="text-align: center;">Laminating the MDF positive; the finished positive with the empty shell; the shell fitted over the board</p>
+
+      <h3>Stay Tuned</h3>
+      <p>We'll be using this in something very interesting in our networking project... 🕹️ 🐉 💨</p>
+
     </section>
   </body>
 

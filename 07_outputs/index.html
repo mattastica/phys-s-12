@@ -25,13 +25,60 @@
     <section class="blog">
       <h1>Week 7: Outputs</h1>
       
-      <p>
-        Document your minimum viable project either here or in the <a href="../13_finalproject/index.html">Final Project tab</a>.
-      </p>
+      <h2>Final Project MVP</h2>
 
-      <p>
-        Create a microcontroller program that integrates an input and output device, using the C++ class structure and avoiding the <code>delay()</code> function. Use the oscilliscope to measure the signals on one of the pins of your output device.
-      </p>
+      <h3>Melodia</h3>
+      <div class="media-text">
+        <video autoplay muted loop playsinline controls>
+          <source src="./Assets/north_south_connection.mp4" type="video/mp4">
+        </video>
+        <div>
+          <p>The MVP implements Melodia, a platform for building games through magnetically connecting and sensing devices that have touch screens and can play sounds. This MVP tackles the hardest parts, which are creating cases that can magnetically connect to one another, detect connection, and detect arrangement. I think the MVP was a success but I have a lot of work to do to refine this.</p>
+          <h3>Overview</h3>
+          <img src="./Assets/magnetic_connector_set.jpg" alt="Boxed set of X0048MNCS9 4-pin magnetic connectors" style="float: right; width: 9rem; height: auto; margin: 0 0 0.5rem 1rem;">
+          <ul>
+            <li>Seeed LCD Touch Display with battery management chip</li>
+            <li>4x X0048MNCS9 4-pin magnetic connectors per device &mdash; detects N, E, S, W by each connection shorting 2 of its pins back to the connecting device. Only 2 XIAO pins detect N, E, S, W using a voltage dividing circuit.</li>
+            <li>Arrangement can detect an XbyY configuration using direction of detection, and a timestamp.</li>
+            <li>Devices communicate over ESPNOW radio</li>
+          </ul>
+        </div>
+      </div>
+
+      <p>There were a lot of challenges, namely that the display and other components use up all but two pins on the XIAO, and only if I disable capabilities. I will need to consolidate to one (so voltage divided 4 cardinal directions?) so I can at least have a buzzer for sound, but I want an amp. These displays came in last minute from China so I haven't slept so I could re-wire my OLED setup from breadboards into the actual case &mdash; forgive the brevity on the write up.</p>
+
+      <h3>Up Next</h3>
+      <ul>
+        <li>Reduce Voltage Division Network to 1 pin</li>
+        <li>Design PCB. Idea is a bore-hole in center of PCB with it wrapping around edge of case, and the case divides into 3 parts (currently 2) and snaps atop it so you can't see it. Goal: solder magnetic connectors to board instead of 14 wires per board.</li>
+        <li>Increase case height to fit 400mah lipo, add holes for buzzer (or amp+speaker).</li>
+        <li>Add simple Tic Tac Toe game</li>
+        <li>Add touch mechanism for restarting game</li>
+      </ul>
+
+      <h3>Devices for Scale</h3>
+      <div class="img-duo">
+        <img src="./Assets/melodia_devices_for_scale.jpg" alt="Two connected Melodia devices next to a pen for scale, screens facing up">
+        <img src="./Assets/melodia_device_back_connetion.jpg" alt="Backs of two connected devices, showing the magnetic connector joining them">
+      </div>
+
+      <h2>Detecting N, S, E, W</h2>
+
+      <h3>Magnets and Voltage Dividers</h3>
+      <div class="media-text split-60">
+        <img src="./Assets/voltage_dividing_circuit.jpg" alt="Hand-drawn diagram of the voltage dividing network: magnetic switches for North, South, East, and West feeding two XIAO analog pins">
+        <div class="stack">
+          <img src="./Assets/magnetic_circuit_open.jpg" alt="Two wired magnetic connectors apart, circuit open">
+          <img src="./Assets/magnetic_circuit_exposed.jpg" alt="The connector pair held together, exposing the pogo pins and magnets">
+          <img src="./Assets/magnetic_circuit_closed.jpg" alt="The connector pair mated, closing the circuit">
+        </div>
+      </div>
+
+      <h2>Arrangement Detection Algorithm</h2>
+      <p>Just what I've been sketching.</p>
+      <div class="img-duo">
+        <img class="wide" src="./Assets/arrangement_detection_algorithm.jpg" alt="Notebook sketch of the arrangement detection algorithm: joining nodes by opposing edges, resolving ambiguity with timestamps, and a placement-to-graph table">
+      </div>
     </section>
   </body>
 

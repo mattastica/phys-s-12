@@ -428,8 +428,14 @@ img:has(+ .caption) {
   margin: 0;
 }
 
+/* a media-text with a 60/40 column split */
+.media-text.split-60 {
+  grid-template-columns: 3fr 2fr;
+}
+
 @media (max-width: 40rem) {
-  .media-text {
+  .media-text,
+  .media-text.split-60 {
     grid-template-columns: 1fr;
   }
 }
