@@ -68,7 +68,8 @@
             <li>No connection &mdash; 3.3v</li>
             <li>North connected (R=10k+10k) &mdash; 1.65v</li>
             <li>South connected (R=10k+20k) &mdash; 2.2v</li>
-            <li>North + South connected (R = 10k &#8741; 20k = 10k &times; 20k / (10k+20k) &asymp; 6.67k) &mdash; ~1.32v</li>
+            <li>North + South connected (R = 10k + (10k &#8741; 20k) &asymp; 16.67k) &mdash; ~1.32v<br>
+              V = 3.3 &times; (10k &times; 20k / (10k + 20k)) / (10k + (10k &times; 20k / (10k + 20k))) = 3.3 &times; 6.67k / 16.67k &asymp; 1.32v</li>
           </ul>
           <p>So then we have branches in code using <code>analogReadMillis(pin)</code> to read A0/A2 to determine connectivity, then feed that and a timestamp to our arrangement algorithm and broadcast over ESPNOW with mac-address as identity. I have proven this for N+S but need to make sure my circuit can support E+W in the same circuit I guess.</p>
         </div>
