@@ -25,8 +25,54 @@
     <section class="blog">
       <h1>Week 9: Networking</h1>
 
-      <p>Working with a partner or group of 3, program something that makes use of the radio, Wifi, or bluetooth capabilities of the ESP32. Only one person per group needs to have documentation on their website. Everyone else should provide a link to that person's documentation.</p>
-      
+      <h2>Remote Control Dragon</h2>
+
+      <h3>Overview</h3>
+      <div class="media-text">
+        <video autoplay muted loop playsinline controls>
+          <source src="./Assets/dragon-demo.mp4" type="video/mp4">
+        </video>
+        <div>
+          <p>I teamed up with Chloe and Gurmani to design a remote control dragon. I'm already implementing networking for my final project but this was an opportunity to integrate our previous rotary encoder <a href="../08_cnc/index.html#rotary-encoder">PCB</a> and <a href="../08_cnc/index.html#cnc-enclosure">enclosure</a> into a new project.</p>
+          <p>The goal was to use ESPNOW to communicate between a remote and a dragon controller, such that the remote could turn the dragon's breath on, and a rotary encoder could control the blinking of its eyes.</p>
+        </div>
+      </div>
+
+      <h3>Enclosure Design</h3>
+      <p>See <a href="https://gurmanikaurdesign.github.io/PHYS-S-12/09_networking/index.html" target="_blank">Gurmani</a> or Chloe's site for design details.</p>
+      <div class="img-duo">
+        <img src="./Assets/dragon-front.jpg" alt="Front view of the orange 3D-printed dragon with its pirate eye patch, wired with alligator clips">
+        <img src="./Assets/dragon-side.jpg" alt="Side view of the dragon showing its articulated body, mossy back, and the wiring feeding in underneath">
+      </div>
+
+      <h2>Software and Hardware</h2>
+      <p>The software for the remote and dragon are in a public repo for <a href="https://github.com/mattastica/remote-control-dragon/blob/main/README.md" target="_blank">Remote Control Dragon</a>. No third party libraries &mdash; everything uses the espressif package. More descriptions of sequences in this repo readme.</p>
+
+      <h3>Remote</h3>
+      <div class="media-text">
+        <img src="./Assets/remote-board.jpg" alt="The remote: milled rotary encoder PCB with the XIAO ESP32-C3, clickable knob, and external antenna">
+        <div>
+          <p>The remote is a simple PCB and clickable rotary encoder. When activated, it attempts to pair with the dragon via ESPNOW radio. It uses a simple Message struct and types for REQUEST, ACK, and then a CONTROL type. Control can signal ON/OFF or INTENSITY (0-100) for the blink rate.</p>
+          <p>Basic mode was:</p>
+          <ul>
+            <li>Turn on: Blinks LED blue while pairing</li>
+            <li>Paired: Stops blinking</li>
+            <li>Click on: LED blinks at default rate on remote, dragon turns on fan breath and blinks eye (it's a pirate) at default rate.</li>
+            <li>Turn rotary: increases rate of blinking on remote and dragon eye</li>
+            <li>Click off: LED stops blinking on remote, dragon eye and fan turn off</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>Dragon</h3>
+      <p>We initially were going to have the remote's rotary controller modulate the speed of a fan, but changing the voltage wasn't material to the output. We also realized the fans required more than 5v so we had to use an external power supply. It didn't occur to us that this could be driven by a motor driver... so we ended up creating our own motor driver (more on that below).</p>
+      <div class="img-duo">
+        <img src="./Assets/dragon-circuit.jpg" alt="Hand-drawn schematic of the homemade motor driver: 2N3904 transistor switching 5V to the gate of the IRFP460 MOSFET to let 12V flow to the fan">
+        <img src="./Assets/dragon-board.jpg" alt="The dragon's breadboarded controller: XIAO ESP32-C3 with the 2N3904 and resistors, and the IRFP460 MOSFET clipped in with alligator leads">
+      </div>
+      <p>We wanted to do this through a digital MOSFET so we could power it with a 3v digital pin but we didn't have one available. So we used a 2N3904 transistor to send 5V to the gate of the IRFP460 MOSFET (required to move it) to allow 12v to flow through to the motor.</p>
+      <p>It worked well, the only issue was the resistors on the circuit weren't big enough to stop the motor from energizing for a split second when the system powered up.</p>
+
     </section>
   </body>
 
