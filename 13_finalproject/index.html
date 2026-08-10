@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Final Project | Matthew Ryan Grace | PHYS S-12</title>
-    <meta name="description" content="Intro to Digital Fabrication — Harvard Summer 2026. Work by Matthew Ryan Grace.">
-    <meta property="og:title" content="Final Project | Matthew Ryan Grace | PHYS S-12">
-    <meta property="og:description" content="Intro to Digital Fabrication — Harvard Summer 2026. Work by Matthew Ryan Grace.">
+    <title>Melodia — Final Project | Matthew Ryan Grace | PHYS S-12</title>
+    <meta name="description" content="Melodia: a platform of magnetically connecting, arrangement-sensing musical game tiles. Final project for PHYS S-12, Harvard Summer 2026.">
+    <meta property="og:title" content="Melodia — Final Project | Matthew Ryan Grace | PHYS S-12">
+    <meta property="og:description" content="Melodia: a platform of magnetically connecting, arrangement-sensing musical game tiles. Final project for PHYS S-12, Harvard Summer 2026.">
     <meta property="og:image" content="https://mattastica.github.io/phys-s-12/og-image.png">
     <meta property="og:url" content="https://mattastica.github.io/phys-s-12/13_finalproject/index.html">
     <meta property="og:type" content="website">
@@ -23,12 +23,243 @@
 
   <body>
     <section class="blog">
-      <h1>Final Project</h1>
-      
+      <h1>Melodia</h1>
+
+      <!-- FINAL VIDEO GOES HERE — uncomment once Assets/melodia_final.mp4 exists:
+      <video class="hero-video big" autoplay muted loop playsinline controls>
+        <source src="./Assets/melodia_final.mp4" type="video/mp4">
+      </video>
+      -->
+
+      <div class="img-trip">
+        <img src="./Assets/build_side.jpg" alt="Assembled Melodia tile from the side">
+        <img src="./Assets/build_bottom.jpg" alt="Bottom of the Melodia tile showing the PCB and acrylic base">
+        <img src="./Assets/build_top.jpg" alt="Top of the Melodia tile showing the round display">
+      </div>
+
+      <h2 id="summary">Summary</h2>
       <p>
-        This is where you'll document your final project. Be sure to include a video demonstrating your project and a bill of materials. Good documentation should explain your entire build process such that someone reading your documentation could recreate your entire project from scratch. See the PS70 website for examples.
+        Melodia is a platform for building games out of small, round-screened
+        tiles that magnetically connect to each other, know <i>which sides</i>
+        they're connected on, talk to each other wirelessly, and each carry
+        their own speaker. Snap two tiles together and like cells they become one
+        organism: a shared space in which their systems interact through touch, swipe, and proximity.
       </p>
-      
+      <p>
+        The project has been developing all summer:
+        it began in <a href="../01_intro/index.html">Week 1</a> as a musical
+        card game concept (solfège cards on a growing 4&times;4 grid);
+        in <a href="../04_microcontroller/index.html">Week 4</a> two breadboard
+        tiles first sensed each other with hall-effect sensors;
+        in <a href="../05_3Dprinting/index.html">Week 5</a> I committed to it
+        as the final project, swapped LEDs for the Seeed round touch display,
+        and playtested the rules in a
+        <a href="../05_3Dprinting/melodia-prototype/index.html">browser
+        prototype</a>;
+        and in <a href="../07_outputs/index.html">Week 7</a> the hall sensors
+        gave way to 4-pin magnetic connectors (recommendation from Nathan for me and Joshua's respective projects vs. hall sensors) which I then used to in a voltage-dividing
+        network — the design that became this board.
+      </p>
+      <p>
+        The current build: a custom single-layer PCB carrying a XIAO ESP32-C3,
+        the round display, a PAM8302 audio amp and speaker, and four magnetic
+        edge connectors, running a shared firmware shell (attract mode, game lobby, sound
+        system menu, over-WiFi flashing, per-board calibration) with games
+        plugged in as state machines — Snake is the first two-board game.
+      </p>
+
+      <h2 id="lessons">Lessons</h2>
+      <ul>
+        <li><b>Simplify componnents</b> The magnetic connectors replaced
+          the hall sensors + magnets for sensing and connection. Each connector is simultaneously the
+          fastener and the electrical contact.</li>
+        <li><b>When pins are scarce, go analog.</b> The display claims nearly
+          every XIAO pin. A resistor network determines "which of my four sides
+          are connected?" — all 16 combinations on a single ADC pin.</li>
+        <li><b>Calibrate instead of chasing precision.</b> The ESP32-C3's ADC
+          doesn't consistently read above ~2.9&nbsp;V, and no resistor kit is exact. Rather than
+          fight tolerances, each board runs a one-time guided calibration and
+          stores its own measured voltages table in flash. Touch 4 sides, generate a 16-voltage table. Can be recalibrated.</li>
+        <li><b>Single-layer routing is an art.</b> One copper layer
+          means the ground pour gets sliced into islands by traces; the fix
+          was rerouting, one 0&Omega; resistor used as a jumper bridge. Also Kicad
+           design-rule checker on PCB can and cannot see
+          (it cannot see through a resistor).</li>
+        <li><b>Surface mount component and custom PCB soldering in general is fragile and time consuming (testing and fab)</b>about 34 components to solder per board and I aimed to have 3 boards for demo purposes. I cut 9 PCBs; I fried 1 ESP-32, a screen; had a faulty SMD. And upon testing them would need to trouble shoot and fix circuits. I even assemled one mangetic connector set wrong. In the future I would prototype 2 max, then once perfected, get the PCB printed. Alas we didn't have time! This improved my soldering skills considerably, however.</b>
+        <li><b>Build rapid prototyping tools; Circuit changes effect core firmware capabilities</b>The moment there were two
+          boards, USB flashing stopped scaling really well — especially when the USB gets in the way. WiFi flashing firmware is available for ESP32s. <b>USB boot mode was hijacked because my voltage dividing network lowered A0s detectable voltage to 2.8v which was below the 3.3v required for to into boot mode! So I had to short it unless flashing over Wifi.</b>
+          that pushes one build to every board turned iteration from minutes
+          into seconds.</li>
+        <li><b>Prototype the game before the hardware.</b>I've been using a browser based prototype for the entireboard UI to fix issues.</li>
+      </ul>
+
+      <h2 id="capabilities">Platform capabilities</h2>
+
+      <h3>Flash over WiFi</h3>
+      <p>
+        From the system menu any board enters <i>flash mode</i>: it joins the
+        WiFi network, announces itself over mDNS as
+        <code>melodia-XXXX</code> (the suffix comes from the chip's MAC), and
+        shows its hostname and IP on screen. <code>flashall.sh</code> compiles
+        the sketch once and pushes it to every board it can find — the whole
+        melodia set updates in one command, no cables. The radio otherwise belongs
+        to ESP-NOW; flash mode is the only state that joins an access point.
+      </p>
+
+      <h3>Per-board calibration, saved to flash</h3>
+      <p>
+        Each board's voltage network is calibrated once through a guided
+        wizard: it captures the connection states, fits the ADC's linear
+        region, and stores the measured 16-entry voltage table in the C3's
+        4&nbsp;MB flash (NVS). After that the board boots calibrated forever;
+        at runtime the sense loop averages 32 ADC samples, snaps to the
+        nearest expected level, and debounces over three stable frames.
+      </p>
+
+      <h3>The rest of the shell</h3>
+      <ul>
+        <li><b>Mesh:</b> ESP-NOW beacons with a magic word; roles negotiate
+          deterministically (lower MAC becomes board A) and a 
+          shared clock keeps both screens' animations in sync.</li>
+        <li><b>Session sync:</b> lobby/game transitions carry a sequence
+          number; board A is the launch authority and the other board adopts —
+          the two screens can never disagree about what's running.</li>
+        <li><b>Touch:</b> tap, hold, and four-direction swipes from the round
+          display's touch layer.</li>
+        <li><b>Audio:</b> a note queue, chords, and the me-lo-di-a logo motif
+          through the PAM8302 amp — every game event sounds on both boards.</li>
+        <li><b>Games as plug-ins:</b> each game is a state machine behind a
+          two-function interface (<code>begin</code>/<code>loop</code>);
+          the shell owns everything else.</li>
+      </ul>
+
+      <h2 id="sensing">Detecting magnetic connections</h2>
+      <p>
+        Each side's magnetic connector loops two pins back to the board when a
+        neighbor mates with it, closing a circuit that adds that side's
+        resistor to a voltage divider. Four sides, four different resistor
+        values — so every one of the 16 connection combinations produces a
+        distinct voltage on a single analog pin. No connection reads full
+        rail; each additional connected side pulls the node lower by a
+        recognizable step.
+      </p>
+      <p>
+        Expected voltages for both resistor sets (full working sheet:
+        <a href="https://docs.google.com/spreadsheets/d/1ybtdRhYjD73MT3Xxkb6a_7ZXGtcu_Fbn_FJksYsxs3w/edit?gid=0#gid=0"
+           target="_blank">voltage network spreadsheet</a>):
+      </p>
+
+      <table class="bom">
+        <thead>
+          <tr>
+            <th>N</th><th>E</th><th>S</th><th>W</th>
+            <th>Connected sides</th>
+            <th>THT expected V<br><small>10k pull-up; 10k/20k/40k/80k</small></th>
+            <th>SMD expected V<br><small>4.7k pull-up; 5.6k/10k/22k/47k</small></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>None</td><td>3.300</td><td>3.300</td></tr>
+          <tr><td>0</td><td>0</td><td>0</td><td>1</td><td>W</td><td>2.941</td><td>3.000</td></tr>
+          <tr><td>0</td><td>0</td><td>1</td><td>0</td><td>S</td><td>2.627</td><td>2.719</td></tr>
+          <tr><td>0</td><td>0</td><td>1</td><td>1</td><td>S + W</td><td>2.394</td><td>2.512</td></tr>
+          <tr><td>0</td><td>1</td><td>0</td><td>0</td><td>E</td><td>2.269</td><td>2.245</td></tr>
+          <tr><td>0</td><td>1</td><td>0</td><td>1</td><td>E + W</td><td>2.093</td><td>2.102</td></tr>
+          <tr><td>0</td><td>1</td><td>1</td><td>0</td><td>E + S</td><td>1.929</td><td>1.960</td></tr>
+          <tr><td>0</td><td>1</td><td>1</td><td>1</td><td>E + S + W</td><td>1.800</td><td>1.850</td></tr>
+          <tr><td>1</td><td>0</td><td>0</td><td>0</td><td>N</td><td>1.650</td><td>1.794</td></tr>
+          <tr><td>1</td><td>0</td><td>0</td><td>1</td><td>N + W</td><td>1.555</td><td>1.702</td></tr>
+          <tr><td>1</td><td>0</td><td>1</td><td>0</td><td>N + S</td><td>1.463</td><td>1.607</td></tr>
+          <tr><td>1</td><td>0</td><td>1</td><td>1</td><td>N + S + W</td><td>1.388</td><td>1.533</td></tr>
+          <tr><td>1</td><td>1</td><td>0</td><td>0</td><td>N + E</td><td>1.344</td><td>1.429</td></tr>
+          <tr><td>1</td><td>1</td><td>0</td><td>1</td><td>N + E + W</td><td>1.281</td><td>1.370</td></tr>
+          <tr><td>1</td><td>1</td><td>1</td><td>0</td><td>N + E + S</td><td>1.217</td><td>1.308</td></tr>
+          <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>N + E + S + W</td><td>1.165</td><td>1.258</td></tr>
+        </tbody>
+      </table>
+      <p class="caption">
+        Expected A0 voltage for every connection state, against 3.3&nbsp;V.
+        The soldered board adds a 33k bleeder to ground (so "none" reads
+        &asymp;2.86&nbsp;V, inside the ADC's range) and uses a 5.1k pull-up with
+        5.1k/10k/33k/75k branches — per-board calibration absorbs the
+        differences either way.
+      </p>
+
+      <h2 id="pcb">Circuit board design</h2>
+
+      <div class="media-text">
+        <img src="./Assets/circuit_diagram.jpg" alt="Notebook sketch of the voltage-dividing network and PAM8302 audio amplifier circuit">
+        <div>
+          <p>
+            The whole custom circuit fits in a notebook sketch: the
+            voltage-dividing network on the left (four connector branches plus
+            pull-up into A0), and the audio chain on the right — the XIAO's
+            PWM through a 1k/0.1&micro;F low-pass into the PAM8302 amplifier,
+            out to the 8&Omega; speaker.
+          </p>
+        </div>
+      </div>
+
+      <div class="media-text">
+        <img src="./Assets/circuit_bread_board.jpg" alt="Breadboard build of the Melodia circuit: XIAO ESP32-C3, resistor ladder, PAM8302 amp and speaker">
+        <div>
+          <p>
+            The breadboard proof: XIAO ESP32-C3, the THT resistor ladder with
+            jumper "connections" standing in for the magnetic connectors, and
+            the amp driving the speaker. Every value on the PCB was validated
+            here first — and this build is why calibration became a firmware
+            feature rather than a solder-better resolution.
+          </p>
+        </div>
+      </div>
+
+      <p>
+        The board itself is single-layer FR1, milled to a plus shape so the
+        four connector arms reach the case edge, with the XIAO and display
+        stacked in the middle:
+      </p>
+
+      <div class="img-duo">
+        <img src="./Assets/circuit_schematic.png" alt="KiCad schematic of the Melodia board">
+        <img src="./Assets/circuit_with_traces.png" alt="KiCad PCB layout with traces and ground pour">
+      </div>
+      <div class="img-duo">
+        <img class="half" src="./Assets/front_copper.png" alt="Front copper layer export">
+        <img class="half" src="./Assets/edge_cuts.png" alt="Board outline (edge cuts) export">
+      </div>
+      <div class="img-duo">
+        <img src="./Assets/pcb_unsoldered.jpg" alt="Milled Melodia PCB before soldering">
+        <img src="./Assets/screen_and_pcb_components.jpg" alt="Round display and components laid out on the PCB">
+      </div>
+
+      <h3>Files</h3>
+      <ul>
+        <li><a href="./Assets/kicad/melodia.kicad_pro" download>melodia.kicad_pro</a> &mdash; KiCad project</li>
+        <li><a href="./Assets/kicad/melodia.kicad_sch" download>melodia.kicad_sch</a> &mdash; schematic</li>
+        <li><a href="./Assets/kicad/melodia.kicad_pcb" download>melodia.kicad_pcb</a> &mdash; board layout</li>
+        <li><a href="./Assets/melodia_base.dxf" download>melodia_base.dxf</a> &mdash; 42&nbsp;mm acrylic base, for CNC</li>
+      </ul>
+
+      <h2 id="bom">Bill of materials</h2>
+      <table class="bom">
+        <thead>
+          <tr><th>Qty</th><th>Item</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>XIAO ESP32-C3</td><td>brains + ESP-NOW radio</td></tr>
+          <tr><td>1</td><td>Seeed Round Display for XIAO</td><td>1.28&Prime; 240&times;240 touch, battery charging</td></tr>
+          <tr><td>1</td><td>PAM8302 amplifier</td><td>Jessinie clone of the Adafruit board</td></tr>
+          <tr><td>1</td><td>8&Omega; speaker</td><td></td></tr>
+          <tr><td>4</td><td>4-pin magnetic connectors</td><td>one per side (N/E/S/W)</td></tr>
+          <tr><td>1</td><td>FR1 PCB</td><td>milled single-layer, files above</td></tr>
+          <tr><td>1</td><td>400&nbsp;mAh 3.7&nbsp;V LiPo battery</td><td></td></tr>
+          <tr><td>3</td><td>small M2 brass standoffs</td><td></td></tr>
+          <tr><td>3</td><td>mini M2 brass standoffs</td><td></td></tr>
+          <tr><td>3</td><td>short M2 screws</td><td></td></tr>
+          <tr><td>1</td><td>4&nbsp;mm acrylic sheet</td><td>CNC base, 42&nbsp;mm diameter — <a href="./Assets/melodia_base.dxf" download>melodia_base.dxf</a></td></tr>
+        </tbody>
+      </table>
+
     </section>
   </body>
 
