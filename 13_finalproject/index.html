@@ -25,11 +25,10 @@
     <section class="blog">
       <h1>Melodia</h1>
 
-      <!-- FINAL VIDEO GOES HERE — uncomment once Assets/melodia_final.mp4 exists:
-      <video class="hero-video big" autoplay muted loop playsinline controls>
-        <source src="./Assets/melodia_final.mp4" type="video/mp4">
+      <video class="hero-video big" controls playsinline preload="metadata"
+             poster="./Assets/melodia_poster.jpg">
+        <source src="./Assets/melodia.mp4" type="video/mp4">
       </video>
-      -->
 
       <div class="img-trip">
         <img src="./Assets/build_side.jpg" alt="Assembled Melodia tile from the side">
@@ -95,35 +94,32 @@
 
       <h2 id="capabilities">Platform capabilities</h2>
 
-      <h3>Flash over WiFi</h3>
+      <h3>Remote Updates | Flash over WiFi</h3>
       <p>
         From the system menu any board enters <i>flash mode</i>: it joins the
         WiFi network, announces itself over mDNS as
         <code>melodia-XXXX</code> (the suffix comes from the chip's MAC), and
         shows its hostname and IP on screen. <code>flashall.sh</code> compiles
-        the sketch once and pushes it to every board it can find — the whole
-        melodia set updates in one command, no cables. The radio otherwise belongs
-        to ESP-NOW; flash mode is the only state that joins an access point.
+        the sketch once and pushes it to every board it can find on wifi.
       </p>
 
-      <h3>Per-board calibration, saved to flash</h3>
+      <h3>Per-board cardinal calibration (NESW), saved to flash</h3>
       <p>
         Each board's voltage network is calibrated once through a guided
         wizard: it captures the connection states, fits the ADC's linear
-        region, and stores the measured 16-entry voltage table in the C3's
-        4&nbsp;MB flash (NVS). After that the board boots calibrated forever;
+        region, and stores the measured 16-entry voltage table in the Xiao's
+        4&nbsp;MB flash (NVS). Board is calibrated forever;
         at runtime the sense loop averages 32 ADC samples, snaps to the
         nearest expected level, and debounces over three stable frames.
       </p>
 
-      <h3>The rest of the shell</h3>
+      <h3>Everything else</h3>
       <ul>
-        <li><b>Mesh:</b> ESP-NOW beacons with a magic word; roles negotiate
+        <li><b>Mesh:</b> ESP-NOW beacons with a token; roles negotiate
           deterministically (lower MAC becomes board A) and a 
           shared clock keeps both screens' animations in sync.</li>
-        <li><b>Session sync:</b> lobby/game transitions carry a sequence
-          number; board A is the launch authority and the other board adopts —
-          the two screens can never disagree about what's running.</li>
+        <li><b>Session sync:</b> connect/wait/game transitions carry a sequence
+          number; board A is the launch authority and the other board(s) adopts —
         <li><b>Touch:</b> tap, hold, and four-direction swipes from the round
           display's touch layer.</li>
         <li><b>Audio:</b> a note queue, chords, and the me-lo-di-a logo motif
@@ -134,15 +130,23 @@
       </ul>
 
       <h2 id="sensing">Detecting magnetic connections</h2>
+
+      <video autoplay muted loop playsinline controls>
+        <source src="./Assets/connect.mp4" type="video/mp4">
+      </video>
+
       <p>
         Each side's magnetic connector loops two pins back to the board when a
         neighbor mates with it, closing a circuit that adds that side's
         resistor to a voltage divider. Four sides, four different resistor
-        values — so every one of the 16 connection combinations produces a
-        distinct voltage on a single analog pin. No connection reads full
-        rail; each additional connected side pulls the node lower by a
-        recognizable step.
+        values such that there are 16 connection combinations producing a
+        distinct voltage on a single analog pin.
       </p>
+
+      <video autoplay muted loop playsinline controls>
+        <source src="./Assets/calibrate.mp4" type="video/mp4">
+      </video>
+
       <p>
         Expected voltages for both resistor sets (full working sheet:
         <a href="https://docs.google.com/spreadsheets/d/1ybtdRhYjD73MT3Xxkb6a_7ZXGtcu_Fbn_FJksYsxs3w/edit?gid=0#gid=0"
@@ -180,7 +184,7 @@
       <p class="caption">
         Expected A0 voltage for every connection state, against 3.3&nbsp;V.
         The soldered board adds a 33k bleeder to ground (so "none" reads
-        &asymp;2.86&nbsp;V, inside the ADC's range) and uses a 5.1k pull-up with
+        &asymp;2.86&nbsp;V, inside the A0's) and uses a 5.1k pull-up with
         5.1k/10k/33k/75k branches — per-board calibration absorbs the
         differences either way.
       </p>
@@ -191,7 +195,7 @@
         <img src="./Assets/circuit_diagram.jpg" alt="Notebook sketch of the voltage-dividing network and PAM8302 audio amplifier circuit">
         <div>
           <p>
-            The whole custom circuit fits in a notebook sketch: the
+            The circuit fits in a notebook sketch: the
             voltage-dividing network on the left (four connector branches plus
             pull-up into A0), and the audio chain on the right — the XIAO's
             PWM through a 1k/0.1&micro;F low-pass into the PAM8302 amplifier,
@@ -204,9 +208,8 @@
         <img src="./Assets/circuit_bread_board.jpg" alt="Breadboard build of the Melodia circuit: XIAO ESP32-C3, resistor ladder, PAM8302 amp and speaker">
         <div>
           <p>
-            The breadboard proof: XIAO ESP32-C3, the THT resistor ladder with
-            jumper "connections" standing in for the magnetic connectors, and
-            the amp driving the speaker. Every value on the PCB was validated
+            The breadboard proof: XIAO ESP32-C3, the THR resistor ladder with
+            jumper cables standing in for the magnetic connectors. Amp is driving the speaker. Every value on the PCB was validated
             here first — and this build is why calibration became a firmware
             feature rather than a solder-better resolution.
           </p>
@@ -214,7 +217,7 @@
       </div>
 
       <p>
-        The board itself is single-layer FR1, milled to a plus shape so the
+        The board itself is single-layer FR1, designed via Kicad, and milled to a plus shape so the
         four connector arms reach the case edge, with the XIAO and display
         stacked in the middle:
       </p>
