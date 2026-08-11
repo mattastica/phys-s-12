@@ -35,7 +35,7 @@
         Melodia is a platform for building games out of small, round-screened
         tiles that magnetically connect to each other, know <i>which sides</i>
         they're connected on, talk to each other wirelessly, and each carry
-        their own speaker. Snap two tiles together and like cells they become one
+        their own speaker. Snap two tiles together and, like cells, they become one
         organism: a shared space in which their systems interact through touch, swipe, and proximity.
       </p>
       <p>
@@ -50,7 +50,7 @@
         <a href="../05_3Dprinting/melodia-prototype/index.html">browser
         prototype</a>;
         and in <a href="../07_outputs/index.html">Week 7</a> the hall sensors
-        gave way to 4-pin magnetic connectors (recommendation from Nathan for me and Joshua's respective projects vs. hall sensors) which I then used to in a voltage-dividing
+        gave way to 4-pin magnetic connectors (recommendation from Nathan for my and Joshua's respective projects vs. hall sensors) which I then used in a voltage-dividing
         network — the design that became this board.
       </p>
       <p>
@@ -69,22 +69,21 @@
 
       <h2 id="lessons">Insights</h2>
       <ul>
-        <li><b>Simplify componnents</b> The magnetic connectors replaced
+        <li><b>Simplify components.</b> The magnetic connectors replaced
           the hall sensors + magnets for sensing and connection. Each connector is simultaneously the
           fastener and the electrical contact.</li>
         <li><b>When pins are scarce, go analog.</b> The display claims nearly
           every XIAO pin. A resistor network determines "which of my four sides
-          are connected?" — all 16 combinations on a single (A0) pin.</li>
+          are connected?" on a single (A0) pin.</li>
         <li><b>Calibrate instead of chasing precision.</b> The ESP32-C3's A0 pin
           doesn't consistently read above ~2.9&nbsp;V, and no resistor kit is exact. Rather than
-          fight tolerances, each board has a calibration wizard.</li>
+          fight tolerances, each board calibrates itself once.</li>
         <li><b>Single-layer PCB design and routing is an art.</b> One copper layer
           means the ground pour can get sliced into little islands by traces; the fix
-          was rerouting, one 0&Omega; resistor used as a jumper bridge. Kicad has a design-rule checker on PCB phase that cannot see through 9&Omega resistors — so you must be confident its the connection left unlinked.</li>
-        <li><b>Surface mount component and custom PCB soldering in general is fragile and time consuming.</b>34 components to solder and then test per board. I aimed to have 3 boards for demo purposes. I cut 9 PCBs; I fried 1 ESP-32, a screen; had a faulty SMD. And upon testing them would need to trouble shoot and fix circuits. I even assemled one mangetic connector set wrong. In the future I would prototype 2 max, then once perfected, get the PCB printed. Alas we didn't have time! This improved my soldering skills considerably, however.
-        <li><b>Circuit changes effect core hardware capabilities.</b> The ESP32's USB boot mode (hold boot button, tap reset) for flashing firmware was suppressed due to my voltage dividing network lowering nominal voltage on A0sto ~2.8v. This below the 3.3v required for the hardware to enter boot mode - it uses A0 to detect this! So I had to short by connecting pins each time. The fix was enabling flashing over Wifi via a new flash mode on the system menu.</b></li>
-        <li><b>Flash mode determines</b>that pushes one build to every board turned iteration from minutes</li>
-        <li><b>Prototype the game before the hardware.</b>I've been using a browser based prototypes sincre early game concepts in Week 4 through simulating the software and games on the devices.</li>
+          was rerouting, one 0&Omega; resistor used as a jumper bridge. KiCad has a design-rule checker in the PCB phase that cannot see through 0&Omega; resistors — so you must be confident it's the connection left unlinked.</li>
+        <li><b>Surface-mount component and custom PCB soldering in general is fragile and time-consuming.</b> 34 components to solder and then test per board. I aimed to have 3 boards for demo purposes. I cut 9 PCBs; I fried 1 ESP32, a screen; had a faulty SMD. And upon testing them I would need to troubleshoot and fix circuits. I even assembled one magnetic connector set wrong. In the future I would prototype 2 max, then once perfected, get the PCB printed. Alas we didn't have time! This improved my soldering skills considerably, however.</li>
+        <li><b>Circuit changes affect core hardware capabilities.</b> The ESP32's USB boot mode (hold boot button, tap reset) for flashing firmware was suppressed due to my voltage-dividing network lowering the nominal voltage on A0 to ~2.8&nbsp;V. This is below the 3.3&nbsp;V required for the hardware to enter boot mode — it uses A0 to detect this! So I had to short it by connecting pins each time. The fix was enabling flashing over WiFi via a new flash mode on the system menu — turning iteration from minutes into seconds.</li>
+        <li><b>Prototype the game before the hardware.</b> I've been using browser-based prototypes since early game concepts in Week 4, simulating the software and games on the devices.</li>
       </ul>
 
       <h2 id="capabilities">Platform capabilities</h2>
@@ -95,14 +94,14 @@
         WiFi network, announces itself over mDNS as
         <code>melodia-XXXX</code> (the suffix comes from the chip's MAC), and
         shows its hostname and IP on screen. A local <code>flashall.sh</code> compiles
-        the sketch once and pushes it to every board it can find on wifi.
+        the sketch once and pushes it to every board it can find on WiFi.
       </p>
 
       <h3>Per-board cardinal calibration (NESW), saved to flash</h3>
       <p>
         Each board's voltage network is calibrated once through a guided
-        wizard: it captures the connection states, calculates the tolerances, and stores the measured 16-entry voltage table in the Xiao's
-        4&nbsp;MB flash onboard storge to prevent need for future recalibration.
+        wizard: it captures the connection states, calculates the tolerances, and stores the measured 16-entry voltage table in the XIAO's
+        4&nbsp;MB onboard flash storage to prevent the need for future recalibration.
       </p>
 
       <h3>Everything Else</h3>
@@ -112,6 +111,7 @@
           shared clock keeps both screens' animations in sync.</li>
         <li><b>Session sync:</b> connect/wait/game transitions carry a sequence
           number; board A is the launch authority and the other board(s) adopts —
+          the two screens can never disagree about what's running.</li>
         <li><b>Touch:</b> tap, hold, and four-direction swipes from the round
           display's touch layer.</li>
         <li><b>Audio:</b> a note queue, chords, and the me-lo-di-a logo motif
@@ -132,7 +132,7 @@
         neighbor mates with it, closing a circuit that adds that side's
         resistor to a voltage divider. Four sides, four different resistor
         values such that there are 16 connection combinations producing a
-        distinct voltage on a single analog pin. Voltage is derived by sampling 32 times, snapping to nearest known level in the table.
+        distinct voltage on a single analog pin. Voltage is derived by sampling 32 times, snapping to the nearest known level in the table.
       </p>
 
       <video autoplay muted loop playsinline controls>
@@ -176,7 +176,7 @@
       <p class="caption">
         Expected A0 voltage for every connection state, against 3.3&nbsp;V.
         The soldered board adds a 33k bleeder to ground (so "none" reads
-        &asymp;2.86&nbsp;V, inside the A0's) and uses a 5.1k pull-up with
+        &asymp;2.86&nbsp;V, inside the A0's range) and uses a 5.1k pull-up with
         5.1k/10k/33k/75k branches — per-board calibration absorbs the
         differences either way.
       </p>
@@ -200,7 +200,7 @@
         <img src="./Assets/circuit_bread_board.jpg" alt="Breadboard build of the Melodia circuit: XIAO ESP32-C3, resistor ladder, PAM8302 amp and speaker">
         <div>
           <p>
-            The breadboard proof: XIAO ESP32-C3, the THR resistor ladder with
+            The breadboard proof: XIAO ESP32-C3, the THT resistor ladder with
             jumper cables standing in for the magnetic connectors. Amp is driving the speaker. Every value on the PCB was validated
             here first — and this build is why calibration became a firmware
             feature rather than a solder-better resolution.
@@ -209,7 +209,7 @@
       </div>
 
       <p>
-        The board itself is single-layer of Copper on FR1, designed via Kicad, and milled to a plus shape so the
+        The board itself is a single layer of copper on FR1, designed via KiCad, and milled to a plus shape so the
         four connector arms reach the case edge, with the XIAO and display
         stacked in the middle:
       </p>
