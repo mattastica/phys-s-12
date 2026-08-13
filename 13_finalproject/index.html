@@ -82,7 +82,7 @@
           means the ground pour can get sliced into little islands by traces; the fix
           was rerouting, one 0&Omega; resistor used as a jumper bridge. KiCad has a design-rule checker in the PCB phase that cannot see through 0&Omega; resistors — so you must be confident it's the connection left unlinked.</li>
         <li><b>Surface-mount component and custom PCB soldering in general is fragile and time-consuming.</b> 34 components to solder and then test per board. I aimed to have 3 boards for demo purposes. I cut 9 PCBs; I fried 1 ESP32, a screen; had a faulty SMD. And upon testing them I would need to troubleshoot and fix circuits. I even assembled one magnetic connector set wrong. In the future I would prototype 2 max, then once perfected, get the PCB printed. Alas we didn't have time! This improved my soldering skills considerably, however.</li>
-        <li><b>Circuit changes affect core hardware capabilities.</b> The ESP32's USB boot mode (hold boot button, tap reset) for flashing firmware was suppressed due to my voltage-dividing network lowering the nominal voltage on A0 to ~2.8&nbsp;V. This is below the 3.3&nbsp;V required for the hardware to enter boot mode — it uses A0 to detect this! So I had to short it by connecting pins each time. The fix was enabling flashing over WiFi via a new flash mode on the system menu — turning iteration from minutes into seconds.</li>
+        <li><b>Circuit changes affect core hardware capabilities.</b> The ESP32's USB boot mode (hold boot button, tap reset) for flashing firmware was suppressed due to my voltage-dividing network lowering the nominal voltage on A0 to ~2.8&nbsp;V. This is below the 3.3&nbsp;V required for the hardware to enter boot mode — it uses A0 to detect this! So I had to short it by connecting pins each time. The fix was enabling flashing over WiFi via a new flash mode on the system menu.</li>
         <li><b>Prototype the game before the hardware.</b> I've been using browser-based prototypes since early game concepts in Week 4, simulating the software and games on the devices.</li>
       </ul>
 
@@ -101,7 +101,7 @@
       <p>
         Each board's voltage network is calibrated once through a guided
         wizard: it captures the connection states, calculates the tolerances, and stores the measured 16-entry voltage table in the XIAO's
-        4&nbsp;MB onboard flash storage to prevent the need for future recalibration.
+        4&nbsp;MB onboard flash storage.
       </p>
 
       <h3>Everything Else</h3>
@@ -116,7 +116,7 @@
           display's touch layer.</li>
         <li><b>Audio:</b> a note queue, chords, and the me-lo-di-a logo motif
           through the PAM8302 amp — every game event sounds on both boards.</li>
-        <li><b>Games as plug-ins:</b> each game is a state machine behind a
+        <li><b>Games as plugin apps:</b> each game is a state machine behind a
           two-function interface (<code>begin</code>/<code>loop</code>);
           the shell owns everything else.</li>
       </ul>
@@ -202,8 +202,7 @@
           <p>
             The breadboard proof: XIAO ESP32-C3, the THT resistor ladder with
             jumper cables standing in for the magnetic connectors. Amp is driving the speaker. Every value on the PCB was validated
-            here first — and this build is why calibration became a firmware
-            feature rather than a solder-better resolution.
+            here first.
           </p>
         </div>
       </div>
